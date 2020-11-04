@@ -1,10 +1,13 @@
 <template>
-  <div class="home-page">
-    <h1>HomePage</h1>
-  </div>
+  <section class="reset-password">
+    <h1>Reset Password</h1>
+  </section>
 </template>
+
 <script>
+
 export default {
+  name: 'LearnResetPassword',
   data () {
     return {
     }

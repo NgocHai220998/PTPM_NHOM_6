@@ -1,19 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import userService from '@/utils/userServices'
-import Register from '@/components/login/Register'
+import SignUp from '@/components/login/Signup'
 import Login from '@/components/login/Login'
-import ForgotPassword from '@/components/login/ForgotPassword'
+import ResetPassword from '@/components/login/ResetPassword'
 import HomeScreen from '@/screens/HomeScreen'
-import FightScreen from '@/screens/FightScreen'
-import PositionScreen from '@/screens/PositionScreen'
-import RankScreen from '@/screens/RankScreen'
-import RecruitScreen from '@/screens/RecruitScreen'
-import GotoLearnScreen from '@/screens/GotoLearnScreen'
-import CoursesScreen from '@/screens/CoursesScreen'
-import CourseScreen from '@/screens/CourseScreen'
-import RoomsScreen from '@/screens/RoomsScreen'
-import RoomScreen from '@/screens/RoomScreen'
 
 Vue.use(Router)
 
@@ -23,13 +14,12 @@ const router = new Router({
     {
       path: '/',
       name: 'HomeScreen',
-      component: HomeScreen,
-      meta: { auth: true }
+      component: HomeScreen
     },
     {
       path: '/register',
-      name: 'Register',
-      component: Register
+      name: 'SignUp',
+      component: SignUp
     },
     {
       path: '/login',
@@ -38,62 +28,8 @@ const router = new Router({
     },
     {
       path: '/reset-password',
-      name: 'ForgotPassword',
-      component: ForgotPassword
-    },
-    {
-      path: '/fight/:type/:email/:emailReverse',
-      name: 'FightScreen',
-      component: FightScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/position',
-      name: 'PositionScreen',
-      component: PositionScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/rank',
-      name: 'RankScreen',
-      component: RankScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/recruit',
-      name: 'RecruitScreen',
-      component: RecruitScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/goto-learn',
-      name: 'GotoLearnScreen',
-      component: GotoLearnScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/courses',
-      name: 'CoursesScreen',
-      component: CoursesScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/courses/:name',
-      name: 'CourseScreen',
-      component: CourseScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/rooms',
-      name: 'RoomsScreen',
-      component: RoomsScreen,
-      meta: { auth: true }
-    },
-    {
-      path: '/rooms/:id/:email/:emailReverse',
-      name: 'RoomScreen',
-      component: RoomScreen,
-      meta: { auth: true }
+      name: 'ResetPassword',
+      component: ResetPassword
     }
   ]
 })
