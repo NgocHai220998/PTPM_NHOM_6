@@ -1,10 +1,13 @@
 <template>
-  <div class="home-page">
-    <h1>HomePage</h1>
-  </div>
+  <section class="signup">
+    <h1>Signup</h1>
+  </section>
 </template>
+
 <script>
+
 export default {
+  name: 'LearnSignup',
   data () {
     return {
     }
