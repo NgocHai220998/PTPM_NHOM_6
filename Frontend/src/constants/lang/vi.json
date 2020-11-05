@@ -1,0 +1,98 @@
+{
+  "header": {
+    "courses": {
+      "index": "Khóa học",
+      "my-courses": "Của tôi",
+      "other-courses": "Khác"
+    },
+    "create-course": {
+      "index": "Tạo khóa học"
+    },
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "logout": "Đăng xuất",
+    "profile": "Hồ sơ",
+    "setting": "Cài đặt"
+  },
+  "footer": {
+    "describe": "L-E-A-R-N giúp tất cả mọi người có thể học tiếng Nhật một cách dễ dàng.",
+    "copyright": "© 2019 L-E-A-R-N. Đã đăng ký bản quyền",
+    "about-us": {
+      "index": "VỀ CHÚNG TÔI",
+      "university": "Trường đại học"
+    },
+    "support": {
+      "index": "HỖ TRỢ",
+      "feedback": "Phản hồi",
+      "terms-service": "Điều khoản dịch vụ",
+      "guide": "Hướng dẫn"
+    },
+    "group": {
+      "index": "NHÓM"
+    },
+    "language": {
+      "index": "NGÔN NGỮ"
+    }
+  },
+  "login": {
+    "title-login": "ĐĂNG NHẬP",
+    "text-warning": "Vui lòng kiểm tra xem bạn đang truy cập:",
+    "btn-login": "Đăng nhập",
+    "required-email": "Vui lòng nhập email của bạn.",
+    "invalid-email": "Email không hợp lệ",
+    "placeholder-email": "Địa chỉ email",
+    "required-password": "Xin vui lòng nhập mật khẩu của bạn.",
+    "err-length-password": "Mật khẩu của bạn phải chứa ít nhất 6 ký tự.",
+    "placeholder-password": "Mật khẩu",
+    "placeholder-repassword": "Xác nhận mật khẩu",
+    "required-repassword": "Xin vui lòng xác nhận mật khẩu của bạn.",
+    "warning-check-repassword": "Hai mật khẩu bạn nhập không khớp.",
+    "btn-signup": "Đăng ký",
+    "btn-forgot-password": "Quên mật khẩu",
+    "title-signup": "ĐĂNG KÝ",
+    "placeholder-first-name": "Tên đệm",
+    "placeholder-last-name": "Tên",
+    "required-first-name": "Xin vui lòng nhập tên đệm của bạn.",
+    "required-last-name": "Xin vui lòng nhập tên của bạn.",
+    "placeholder-email-code": "Mã code",
+    "required-email-code": "Xin vui lòng nhập mã code bạn nhận được.",
+    "terms-one": "Tôi đã đọc và đồng ý với",
+    "terms-second": "Các điều khoản",
+    "required-terms": "Hãy đồng ý với các điều khoản.",
+    "already-member": "Có tài khoản",
+    "title-forgot-password": "LẤY LẠI MẬT KHẨU",
+    "btn-success-forgot-password": "Lấy lại mật khẩu",
+    "get-code": "Lấy mã"
+  },
+  "banner": {
+    "title": "CHÀO MỪNG ĐẾN VỚI",
+    "text-content": "Ở đây bạn chắc chắn sẽ có những trải nghiệm thú vị, hơn hết đây là một trang học tập miễn phí.",
+    "rank": "BXH Tuần",
+    "duel": "Khiêu chiến"
+  },
+  "my-courses": {
+    "rank": "Bậc",
+    "time_play": "Giờ chơi",
+    "likes": "Lượt thích",
+    "play-now": "Chơi ngay",
+    "share": "Chia sẻ",
+    "view-profile": "Xem hồ sơ"
+  },
+  "create-course": {
+    "why-create-course": "Tại sao phải tạo khóa học?",
+    "list-word": "Một danh sách những từ cần học.",
+    "share-content": "Chia sẻ nội dung quen thuộc với bạn học / đồng nghiệp",
+    "share-ducument": "Chia sẻ tài liệu giảng dạy tuyệt vời với cộng đồng!",
+    "helps": "Bạn có cần giúp đỡ gì thêm không?",
+    "document-one": "Hãy xem",
+    "document-second": "lý thuyết về tạo khóa học.",
+    "key-word": "Từ khóa",
+    "course-name": "Tên khóa khóa học",
+    "description": "Mô tả khóa học",
+    "description-short": "Mô tả ngắn gọn",
+    "done": "Hoàn thành",
+    "required-course-name": "Xin vui lòng nhập tên khóa học.",
+    "required-description": "Xin vui lòng nhập mô tả của khóa học.",
+    "required-description-short": "Xin vui lòng nhập mô tả."
+  }
+}

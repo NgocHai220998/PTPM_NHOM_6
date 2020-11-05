@@ -1,0 +1,14 @@
+{
+  "header": {
+    "courses": {
+      "index": "Courses",
+      "my-courses": "My course",
+      "other-courses": "Other course"
+    },
+    "create-course": {
+      "index": "Create a course"
+    },
+    "login": "Login",
+    "signup": "Sign up"
+  }
+}
