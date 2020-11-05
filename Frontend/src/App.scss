@@ -10,5 +10,39 @@
 }
 
 #app {
-    background-image: url("/static/images/backgroundLogin.jpg");
+    // background-image: url("/static/images/backgroundLogin.jpg");
+    display: flex;
+    &-left {
+        background-color: green;
+        margin: 1px;
+        width: 20%;
+        min-width: 262px;
+    }
+    &-right {
+        background-color: green;
+        margin: 1px;
+        width: 20%;
+        min-width: 262px;
+    }
+    &-center {
+        background-color: green;
+        margin: 1px;
+        width: 60%;
+        min-width: 750px;
+        display: flex;
+        flex-direction: column;
+        &-top {
+            height: 30%;
+            min-height: 150px;
+        }
+        &-view {
+            height: 100%;
+        }
+        &-bot {
+            height: 100px;
+        }
+    }
+    max-width: 1500px;
+    margin: 0 auto;
+    max-height: 1100px;
 }

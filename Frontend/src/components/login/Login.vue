@@ -52,7 +52,7 @@
             <router-link :to="{ name: 'Register' }" class="signin-signup">{{ $t('login.btn-signup') }}</router-link>
           </div>
           <div>
-            <router-link :to="{ name: 'ResetPassword' }" class="signin-forgot">
+            <router-link :to="{ name: 'ForgotPassword' }" class="signin-forgot">
             {{ $t('login.btn-forgot-password') }}?
             </router-link>
           </div>
@@ -69,7 +69,7 @@ import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
 
 export default {
-  name: 'LearnLogin',
+  name: 'LoginComponent',
   data () {
     return {
       loading: false,
@@ -93,7 +93,6 @@ export default {
             })
           }).then((response) => response.json())
             .then((res) => {
-              console.log(res)
               if (res.code === 200) {
                 // localStorage.setItem('user', JSON.stringify(res.data.user))
                 const message = res.data.message ? res.data.message : 'Success!'

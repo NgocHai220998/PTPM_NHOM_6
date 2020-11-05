@@ -1,12 +1,12 @@
 <template>
-  <footer class="footer">
-    <h1>Footer</h1>
-  </footer>
+  <section class="mission">
+    <h1>MissionComponent</h1>
+  </section>
 </template>
 
 <script>
 export default {
-  name: 'FooterComponent'
+  name: 'MissionComponent'
 }
 </script>
 

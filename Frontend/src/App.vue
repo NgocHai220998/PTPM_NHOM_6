@@ -1,14 +1,20 @@
 <template>
   <div id="app">
-    <learn-header v-show="!this.isLogin()"/>
-    <router-view/>
-    <learn-footer v-show="!this.isLogin()"/>
+    <sidebar-left id="app-left" v-show="!this.isLogin()"></sidebar-left>
+    <section id="app-center">
+      <learn-header id="app-center-top" v-show="!this.isLogin()"/>
+      <router-view id="app-center-view"/>
+      <learn-footer id="app-center-bot" v-show="!this.isLogin()"/>
+    </section>
+    <sidebar-right id="app-right" v-show="!this.isLogin()"></sidebar-right>
   </div>
 </template>
 
 <script>
 import LearnHeader from '@/components/header/Header'
 import LearnFooter from '@/components/footer/Footer'
+import SidebarLeft from '@/components/sidebar/left/SidebarLeft'
+import SidebarRight from '@/components/sidebar/right/SidebarRight'
 import '@/App.scss'
 
 export default {
@@ -20,7 +26,9 @@ export default {
   },
   components: {
     LearnHeader,
-    LearnFooter
+    LearnFooter,
+    SidebarLeft,
+    SidebarRight
   },
   beforeMount () {
     this.currentRouter = this.$router.history.current.name
@@ -31,7 +39,7 @@ export default {
      * Check that the user is logged in
      */
     isLogin () {
-      return this.currentRouter === 'Login' || this.currentRouter === 'Register' || this.currentRouter === 'ResetPassword'
+      return this.currentRouter === 'Login' || this.currentRouter === 'Register' || this.currentRouter === 'ForgotPassword'
     }
   }
 }

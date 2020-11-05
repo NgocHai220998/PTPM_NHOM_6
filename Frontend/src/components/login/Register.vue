@@ -100,7 +100,7 @@ import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
 
 export default {
-  name: 'Register',
+  name: 'RegisterComponent',
   data () {
     return {
       loading: false,
