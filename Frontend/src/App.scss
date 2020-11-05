@@ -1,0 +1,14 @@
+.login {
+    .login-box {
+        .login-form {
+            .ant-form-item-children {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+    }
+}
+
+#app {
+    background-image: url("/static/images/backgroundLogin.jpg");
+}

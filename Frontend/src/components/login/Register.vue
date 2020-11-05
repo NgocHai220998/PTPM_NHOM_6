@@ -1,34 +1,29 @@
 <template>
-  <section class="forgot-password">
-    <div class="forgot-password-box">
-      <a-form class="forgot-password-form"
+  <section class="register">
+    <div class="register-box">
+      <a-form class="register-form"
         :form="form"
         @submit="handleSubmit"
       >
-        <h2 style="padding-top: 0; text-align: center; text-transform: uppercase; font-weight: 500;">{{ $t('login.title-forgot-password') }}</h2>
-        <p class="forgot-password-warning">
+        <h2 style="padding-top: 0; text-align: center; text-transform: uppercase; font-weight: 500;">{{ $t('login.title-signup') }}</h2>
+        <p class="register-warning">
           <a-icon style="color: #faad14; font-size: 24px; position: absolute; top: 12px; left: 15px  " class="warning-icon" type="info-circle-o"/>
           <span style="">{{ $t('login.text-warning') }}</span>
           <span style="display: block">{{ homeUrl }}</span>
         </p>
-        <a-spin :spinning="loadingGetCode" :delay="0">
-          <a-input-search v-model="email" placeholder="Email" @search="onSearch" size="large">
-            <a-button style="background-color: #007ADD; color: white;" slot="enterButton">Get code</a-button>
-          </a-input-search>
-        </a-spin>
         <a-form-item
         >
           <a-input
             v-decorator ="[
-              'email_code',
+              'email',
               {
                 rules: [
-                  { required: true, message: $t('login.required-email-code') }
+                  { required: true, message: $t('login.required-email') },
+                  { type: 'email', message: $t('login.invalid-email') }
                 ]
               }
             ]"
-            :placeholder="$t('login.placeholder-email-code')"
-            class="email-code"
+            :placeholder="$t('login.placeholder-email')"
           />
         </a-form-item>
         <a-form-item
@@ -43,15 +38,15 @@
                 ]
               }
             ]"
-            :placeholder="$t('login.placeholder-password')"
             type='password'
+            :placeholder="$t('login.placeholder-password')"
           />
         </a-form-item>
         <a-form-item
         >
           <a-input
             v-decorator ="[
-              'pwRepeat',
+              'repassword',
               {
                 rules: [
                   { required: true, message: $t('login.required-repassword') },
@@ -59,17 +54,35 @@
                 ]
               }
             ]"
-            :placeholder="$t('login.placeholder-repassword')"
             type='password'
+            :placeholder="$t('login.placeholder-repassword')"
           />
         </a-form-item>
-        <a-form-item class="btn-submit-forgot-password">
+        <a-form-item class="signup-terms"
+        >
+          <a-checkbox
+            :checked="termChecked"
+            @change="onTermChange"
+            v-decorator ="[
+              'terms',
+              {
+                rules: [
+                  { validator: checkTermAgree }
+                ],
+                initialValue: true
+              }
+            ]"
+          >
+            {{ $t('login.terms-one') }} <a href="Javascript:">{{ $t('login.terms-second') }}</a>
+          </a-checkbox>
+        </a-form-item>
+        <a-form-item class="btn-submit-register">
           <a-spin :spinning="loading" :delay="0" class="spin-button">
-            <a-button class="forgot-password-button" type="primary" htmlType="submit">{{ $t('login.btn-forgot-password') }}</a-button>
+            <a-button class="register-button" type="primary" htmlType="submit">{{ $t('login.btn-signup') }}</a-button>
           </a-spin>
         </a-form-item>
         <a-form-item style="text-align: right;">
-          <span style="padding-right: 10px;" class="signin-forgot">Bạn đã nhớ ra mật khẩu? </span>
+          <span style="padding-right: 10px;" class="signin-forgot">{{ $t('login.already-member') }}? </span>
           <router-link :to="{ name: 'Login' }" class="signin-forgot signup-already-member">
             {{ $t('login.btn-login') }}
           </router-link>
@@ -82,23 +95,24 @@
 <script>
 
 import userService from '@/utils/userServices'
-import { postMethod, jsonHeader } from '@/utils/fetchTool'
+import { jsonHeader } from '@/utils/fetchTool'
 import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
 
 export default {
-  name: 'LearnResetPassword',
+  name: 'Register',
   data () {
     return {
       loading: false,
-      email: '',
       homeUrl: 'https://game-language.herokuapp.com',
-      form: this.$form.createForm(this),
-      emailCode: 0,
-      loadingGetCode: false
+      termChecked: true,
+      form: this.$form.createForm(this)
     }
   },
   methods: {
+    onTermChange (e) {
+      this.termChecked = e.target.checked
+    },
     compareToFirstPassword (rule, value, callback) {
       const form = this.form
       if (value && value !== form.getFieldValue('password')) {
@@ -107,37 +121,12 @@ export default {
         callback()
       }
     },
-    onSearch () {
-      this.loadingGetCode = true
-      fetch(API.GET_CODE, {
-        headers: jsonHeader.headers,
-        method: postMethod.method,
-        body: JSON.stringify({
-          email: this.email
-        })
-      }).then((response) => response.json())
-        .then((res) => {
-          if (res.code === 200) {
-            const message = res.data.message ? res.data.message : 'Success!'
-            this.$message.success(message)
-          } else if (res.code === 430) {
-            const message = res.data.message ? res.data.message : 'Email is a required field!'
-            this.$message.error(message)
-          } else if (res.code === 451) {
-            const message = res.data.message ? res.data.message : 'Send mail fail!'
-            this.$message.error(message)
-          } else if (res.code === 401) {
-            const message = res.data.message ? res.data.message : 'Email is not registered!'
-            this.$message.error(message)
-          } else {
-            const message = res.data.message ? res.data.message : 'Email does not exist!'
-            this.$message.error(message)
-          }
-          this.loadingGetCode = false
-        })
-        .catch((err) => {
-          console.log(err)
-        })
+    checkTermAgree (rule, value, callback) {
+      if (!value) {
+        callback(new Error(this.$t('login.required-terms')))
+      } else {
+        callback()
+      }
     },
     handleSubmit (e) {
       e.preventDefault()
@@ -145,34 +134,48 @@ export default {
         if (!err) {
           this.loading = true
           const password = (values.password.length > 1024) ? hash256(values.password.substring(0, 1024)) : hash256(values.password)
-          fetch(API.FORGOT_PASSWORD, {
+          fetch(API.REGISTER, {
+            method: 'post',
             headers: jsonHeader.headers,
-            method: postMethod.method,
             body: JSON.stringify({
-              email: this.email,
-              password: password,
-              emailCode: values.email_code
+              email: values.email,
+              password: password
             })
           }).then((response) => response.json())
             .then((res) => {
               if (res.code === 200) {
-                const message = res.data.message ? res.data.message : 'Success!'
-                this.$message.success(message)
-                this.$router.push({ name: 'Login' })
-              } else if (res.code === 451) {
-                const message = res.data.message ? res.data.message : 'Code does not match or has expired!'
-                this.$message.error(message)
+                fetch(API.SEND_EMAIL_REGISTER, {
+                  method: 'post',
+                  headers: jsonHeader.headers,
+                  body: JSON.stringify({
+                    email: values.email
+                  })
+                }).then((response) => response.json())
+                  .then((res) => {
+                    if (res.code === 200) {
+                      const message = res.data.message ? res.data.message : 'Please! check your mail to confirm'
+                      this.$message.success(message)
+                      this.$router.push({ name: 'Login' })
+                    } else if (res.code === 451) {
+                      const message = res.data.message ? res.data.message : 'Send confirm message to register fail!'
+                      this.$message.error(message)
+                    } else {
+                      const message = res.data.message ? res.data.message : 'Something is not right!'
+                      this.$message.error(message)
+                    }
+                    this.loading = false
+                  }).catch((err) => {
+                    console.log(err)
+                  })
               } else if (res.code === 401) {
-                const message = res.data.message ? res.data.message : 'Forgot password fail!'
+                const message = res.data.message ? res.data.message : 'Email was registered'
                 this.$message.error(message)
+                this.loading = false
               } else {
                 const message = res.data.message ? res.data.message : 'Something is not right'
                 this.$message.error(message)
+                this.loading = false
               }
-              this.loading = false
-            })
-            .catch((err) => {
-              console.log(err)
             })
         }
       })
@@ -189,19 +192,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .forgot-password {
+  .register {
     position: absolute;
     top: 50%;
     left: 50%;
     margin: 0 auto;
     transform: translate(-50%, -50%);
-    .forgot-password-box {
+    .register-box {
       width: 468px;
       border-radius: 20px;
       background-color: white;
       padding: 50px;
-      .forgot-password-form {
-        .forgot-password-warning {
+      .register-form {
+        .register-warning {
           position: relative;
           background-color: #fcf6d7;
           text-align: center;
@@ -211,11 +214,11 @@ export default {
           }
           border-radius: 5px;
         }
-        .btn-submit-forgot-password {
+        .btn-submit-register {
           .spin-button {
             width: 100%;
             text-align: center;
-            .forgot-password-button {
+            .register-button {
               width: 100%;
             }
           }
@@ -224,12 +227,12 @@ export default {
     }
   }
   @media screen and (max-width: 575px) {
-    .forgot-password {
+    .register {
       width: 100%;
-      .forgot-password-box{
+      .register-box{
         box-shadow: none;
         width: 100% !important;
-        .forgot-password-warning {
+        .register-warning {
           .warning-icon {
             display: none;
           }
@@ -237,7 +240,7 @@ export default {
             font-size: 12px;
           }
         }
-        .forgot-password-form {
+        .register-form {
           width: 90%;
         }
       }
