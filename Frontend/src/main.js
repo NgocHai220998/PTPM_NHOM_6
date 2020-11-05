@@ -6,7 +6,9 @@ import App from './App'
 import router from './router'
 import Antd from 'ant-design-vue'
 import VueQriously from 'vue-qriously'
+import i18n from './constants/lang/index'
 import 'ant-design-vue/dist/antd.css'
+
 Vue.config.productionTip = false
 var VueScrollTo = require('vue-scrollto')
 
@@ -27,10 +29,11 @@ Vue.use(VueScrollTo, {
 })
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   components: { App },
   template: '<App/>'
 })
