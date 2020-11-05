@@ -87,7 +87,7 @@ import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
 
 export default {
-  name: 'LearnResetPassword',
+  name: 'ForgotPasswordComponent',
   data () {
     return {
       loading: false,

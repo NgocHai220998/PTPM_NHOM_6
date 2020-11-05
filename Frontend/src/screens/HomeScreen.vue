@@ -1,13 +1,21 @@
 <template>
   <div class="home-page">
-    <h1>HomePage</h1>
+    <home-component></home-component>
   </div>
 </template>
+
 <script>
+
+import HomeComponent from '../components/contents/Home'
+
 export default {
+  name: 'HomeScreen',
   data () {
     return {
     }
+  },
+  components: {
+    HomeComponent
   }
 }
 </script>
