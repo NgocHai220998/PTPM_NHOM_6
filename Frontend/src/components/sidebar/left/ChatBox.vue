@@ -1,14 +1,27 @@
 <template>
   <section class="chat-box">
-    <h1>ChatBoxComponent</h1>
+    <ChatWindow />
   </section>
 </template>
 
 <script>
+
+import ChatWindow from './chatbox/ChatWindow'
+
 export default {
-  name: 'ChatBoxComponent'
+  name: 'ChatBoxComponent',
+  data () {
+    return {
+    }
+  },
+  components: {
+    ChatWindow
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+  .chat-box {
+    height: 40000px;
+  }
 </style>
