@@ -120,7 +120,8 @@
     "ignore": [
       "/test/unit/specs/*",
       "app.js",
-      "/src/store/modules/i18n.js"
+      "/src/store/modules/i18n.js",
+      "/src/components/sidebar/left/chatbox"
     ]
   }
 }

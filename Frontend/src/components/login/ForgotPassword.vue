@@ -144,6 +144,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.loading = true
+          const hideLoading = this.$message.loading('Đang thực hiện yêu cầu..', 0)
           const password = (values.password.length > 1024) ? hash256(values.password.substring(0, 1024)) : hash256(values.password)
           fetch(API.FORGOT_PASSWORD, {
             headers: jsonHeader.headers,
@@ -155,6 +156,7 @@ export default {
             })
           }).then((response) => response.json())
             .then((res) => {
+              hideLoading()
               if (res.code === 200) {
                 const message = res.data.message ? res.data.message : 'Success!'
                 this.$message.success(message)
@@ -194,6 +196,7 @@ export default {
     top: 50%;
     left: 50%;
     margin: 0 auto;
+    margin-top: 40px;
     transform: translate(-50%, -50%);
     .forgot-password-box {
       width: 468px;
