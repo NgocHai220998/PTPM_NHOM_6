@@ -32,9 +32,11 @@ export default {
     flex-direction: column;
     &-info {
       height: 130px;
+      min-height: 130px;
     }
     &-feature {
       height: 200px;
+      min-height: 200px;
     }
     &-chatbox {
       height: auto;
