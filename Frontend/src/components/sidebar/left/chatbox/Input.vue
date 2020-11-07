@@ -40,14 +40,19 @@
 </template>
 <script>
 import emoji from '@/constants/emoji.js'
+import { mapGetters } from 'vuex'
 
 export default {
   data () {
     return {
       message: '',
       emojis: emoji,
-      visible: false
+      visible: false,
+      number: 1
     }
+  },
+  computed: {
+    ...mapGetters(['socket'])
   },
   methods: {
     handleKeypressEnter (event) {
@@ -55,19 +60,15 @@ export default {
         event.preventDefault()
         if (this.message.trim() === '') {
           this.message = ''
-        } else if (this.message.length > 1000) {
+        } else if (this.message.length > 35) {
           this.$message.warning('Your message exceeds the allowable limit!')
-        } else if (this.message.trim() !== '' && this.username !== '') {
-          this.$emit('sendMessage', this.message)
+        } else if (this.message.trim() !== '') {
+          this.socket.emit('clientSend', this.message)
           this.message = ''
         }
       }
     },
     selectIcon (val) {
-    },
-    hide () {
-      console.log(111)
-      this.visible = false
     }
   }
 }
