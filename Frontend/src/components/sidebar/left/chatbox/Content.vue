@@ -3,7 +3,7 @@
     <div id="chat-box" class="index">
       <p v-for="n in data" :key="n">
         <span class="name-message">๖ۣۜGấu๖ۣۜNC:</span>
-        <span class="content-message">message</span>
+        <span class="content-message">{{ n }}</span>
       </p>
     </div>
   </section>
@@ -11,11 +11,16 @@
 
 <script>
 
+import { mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
       data: ['2', '3', '4']
     }
+  },
+  computed: {
+    ...mapGetters(['socket'])
   },
   methods: {
     scrollToBottom () {
@@ -23,7 +28,17 @@ export default {
         const chat = document.getElementById('chat-box')
         chat.scrollTop = chat.scrollHeight
       })
+    },
+    connectSocket () {
+      this.socket.on('getMessage', (message) => {
+        this.$message.success('1')
+        this.data.push(message)
+        this.scrollToBottom()
+      })
     }
+  },
+  beforeMount () {
+    this.connectSocket()
   }
 }
 </script>
