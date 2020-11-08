@@ -2,8 +2,6 @@ const token = require('../../constants/token.js')
 const users = require('../../models/userModel.js')
 const missions = require('../../models/missionModel.js')
 const messages = require('../../models/messageModel.js')
-const gotoLearn = require('../../models/gotoLearnModel.js')
-let number = 1998 // để setInterval chạy 1 lần duy nhất
 
 function onClientLevelUp(socket, io) {
   socket.on('clientLevelUp', (data) => {
@@ -168,8 +166,6 @@ function onClientGetUserInfo (socket, io) {
     })
   })
 }
-
-
 
 module.exports = function run(socket, io) {
   onClientLevelUp(socket, io)
