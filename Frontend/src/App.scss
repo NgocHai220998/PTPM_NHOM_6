@@ -8,7 +8,92 @@
         }
     }
 }
-
+* {
+   box-sizing: border-box; 
+   margin: 0;
+   padding: 0;
+}
 #app {
     background-image: url("/static/images/backgroundLogin.jpg");
+    display: flex;
+    &-left {
+        // background-color: green;
+        margin: 1px;
+        width: 20%;
+        min-width: 262px;
+        .chat-box {
+            .chat-window {
+                .trollbox-user-input {
+                }
+            }
+        }
+    }
+    &-right {
+        // background-color: green;
+        margin: 1px;
+        width: 20%;
+        min-width: 262px;
+        max-width: 262px;
+    }
+    &-center {
+        // background-color: green;
+        margin: 1px;
+        width: 90%;
+        min-width: 750px;
+        display: flex;
+        flex-direction: column;
+        &-top {
+            height: 30%;
+            min-height: 150px;
+        }
+        &-view {
+            height: 100%;
+        }
+        &-bot {
+            height: 100px;
+        }
+    }
+    max-width: 1500px;
+    margin: 0 auto;
+    max-height: 1100px;
+}
+
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    background: -moz-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
+    background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
+    background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
+    background: -webkit-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #cc0000;
+}
+
+
+
+.background {
+    background: -moz-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    background: -o-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    background: -ms-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    background: -webkit-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+}
+
+.background-edit {
+    background: -moz-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    background: -webkit-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
 }

@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'LearnFooter'
+  name: 'FooterComponent'
 }
 </script>
 

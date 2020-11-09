@@ -52,7 +52,7 @@
             <router-link :to="{ name: 'Register' }" class="signin-signup">{{ $t('login.btn-signup') }}</router-link>
           </div>
           <div>
-            <router-link :to="{ name: 'ResetPassword' }" class="signin-forgot">
+            <router-link :to="{ name: 'ForgotPassword' }" class="signin-forgot">
             {{ $t('login.btn-forgot-password') }}?
             </router-link>
           </div>
@@ -69,7 +69,7 @@ import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
 
 export default {
-  name: 'LearnLogin',
+  name: 'LoginComponent',
   data () {
     return {
       loading: false,
@@ -83,6 +83,7 @@ export default {
       this.form.validateFields((err, values) => {
         if (!err) {
           this.loading = true
+          const hideLoading = this.$message.loading('Đang thực hiện yêu cầu..', 0)
           const password = (values.password.length > 1024) ? hash256(values.password.substring(0, 1024)) : hash256(values.password)
           fetch(API.LOGIN, {
             headers: jsonHeader.headers,
@@ -93,7 +94,7 @@ export default {
             })
           }).then((response) => response.json())
             .then((res) => {
-              console.log(res)
+              hideLoading()
               if (res.code === 200) {
                 // localStorage.setItem('user', JSON.stringify(res.data.user))
                 const message = res.data.message ? res.data.message : 'Success!'
@@ -138,6 +139,7 @@ export default {
     top: 50%;
     left: 50%;
     margin: 0 auto;
+    margin-top: 80px;
     transform: translate(-50%, -50%);
     .login-box {
       width: 468px;
