@@ -2,32 +2,33 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img class="index" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        <div class="avatar-level">
+        <img class="index background" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        <div class="avatar-level background">
           <div>
-            <span>146</span>
+            <span title="Cấp độ">146</span>
           </div>
         </div>
-        <div class="avatar-top">
+        <div class="avatar-top background">
           <div>
-            <span>2</span>
+            <span title="Thứ hạng">2</span>
           </div>
         </div>
       </div>
       <div class="right">
         <div class="right-name">
-          <div>
-            <span>NgocHai</span>
+          <div class="background">
+            <span title="Tên nhân vật">NgocHai</span>
+          </div>
+        </div>
+        <div class="right-money">
+          <div class="background">
+            <span title="Tiền yên">2022200 円</span>
+            <a-icon class="achievement" title="Thành tựu" type="bg-colors"/>
           </div>
         </div>
         <div class="right-point">
-          <div>
-            <span>Điểm: 1998</span>
-          </div>
-        </div>
-        <div class="right-achievement">
-          <div>
-            <span><a-icon type="idcard" /> Thành tựu</span>
+          <div class="background">
+            <span title="Kim cương"><a-icon type="radar-chart" /> 1998 Điểm</span>
           </div>
         </div>
         <!-- <div class="right-hp"></div> -->
@@ -57,7 +58,6 @@ export default {
         z-index: 2;
         .index {
           width: 100px;
-          background-color: gray;
           border-radius: 9999px;
           border: 3px solid green;
           cursor: pointer;
@@ -66,7 +66,6 @@ export default {
           position: absolute;
           width: 40px;
           border-radius: 9999px;
-          background-color: gray;
           border: 3px solid green;
           div {
             text-align: center;
@@ -91,26 +90,19 @@ export default {
         z-index: 1;
         top: 5px;
         margin-left: 10px;
-        &-name, &-point, &-achievement {
+        &-name, &-money, &-point {
           // border-radius: 50px;
           div {
-            background-color: #CC6600;
-            margin-left: 35px;
+            margin-left: 20px;
             height: 30px;
             line-height: 30px;
-            cursor: pointer;
-            background-color: #1a82f7;
-            background: -moz-linear-gradient(bottom, #FF6633 30%, #330000 70%);
-            background: -o-linear-gradient(bottom, #FF6633 30%, #330000 70%);
-            background: -ms-linear-gradient(bottom, #FF6633 30%, #330000 70%);
-            background: -webkit-gradient(linear,left bottom,left top,color-stop(0.3, #FF6633),color-stop(0.7, #330000));
             span {
               font-weight: bold;
               color: white;
               padding-left: 80px;
-            }
-            &:hover {
-              opacity: 0.65;
+              &:hover {
+                cursor: pointer;
+              }
             }
           }
         }
@@ -118,12 +110,42 @@ export default {
           div {
             border-radius: 0 10px 0 0;
             // border-bottom: 2px solid green;
+            padding-left: 5px;
           }
         }
-        &-achievement {
+        &-point {
           div {
             // border-top: 2px solid green;
             border-radius: 0 0 10px 0;
+            span {
+              max-width: 160px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              margin-left: 5px;
+            }
+          }
+        }
+        &-money {
+          position: relative;
+          span {
+            display: inline-block;
+            max-width: 170px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 5px;
+          }
+          .achievement {
+            position: absolute;
+            color: white;
+            top: 0px;
+            right: 10px;
+            font-size: 24px;
+            &:hover {
+              cursor: pointer;
+              opacity: 0.65;
+            }
           }
         }
       }
