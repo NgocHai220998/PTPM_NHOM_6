@@ -109,8 +109,8 @@
     "webpack-merge": "^4.1.0"
   },
   "engines": {
-    "node": "12.16.1",
-    "npm": "6.13.4"
+    "node": "12.16.x",
+    "npm": "6.x"
   },
   "browserslist": [
     "> 1%",
@@ -121,8 +121,7 @@
     "ignore": [
       "/test/unit/specs/*",
       "app.js",
-      "/src/store/modules/i18n.js",
-      "/src/components/sidebar/left/chatbox"
+      "/src/store/modules/i18n.js"
     ]
   }
 }
