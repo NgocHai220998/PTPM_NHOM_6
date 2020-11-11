@@ -28,8 +28,8 @@
         <a-button type="primary"> <a-icon type="left" /></a-button>
         <a-button type="primary"><a-icon type="right" /></a-button>
       </a-button-group>
-      <a-button class="btn" @click="isRandom = !isRandom" :type="isRandom ? 'primary' : ''">Ngẫu nhiên</a-button>
-      <a-button class="btn" @click="isAuto = !isAuto" :type="isAuto ? 'primary' : ''">Tự động</a-button>
+      <a-button class="btn" @click="isRandom = !isRandom" :type="isRandom ? 'primary' : 'danger'">Ngẫu nhiên</a-button>
+      <a-button class="btn" @click="isAuto = !isAuto" :type="isAuto ? 'primary' : 'danger'">Tự động</a-button>
     </div>
   </section>
 </template>
@@ -90,9 +90,6 @@ export default {
       bottom: 0px;
       .btn {
         max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         margin-left: 5px;
       }
     }

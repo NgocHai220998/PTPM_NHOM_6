@@ -5,6 +5,7 @@ import Register from '@/components/login/Register'
 import Login from '@/components/login/Login'
 import ForgotPassword from '@/components/login/ForgotPassword'
 import HomeScreen from '@/screens/HomeScreen'
+import FightScreen from '@/screens/FightScreen'
 
 Vue.use(Router)
 
@@ -30,6 +31,11 @@ const router = new Router({
       path: '/reset-password',
       name: 'ForgotPassword',
       component: ForgotPassword
+    },
+    {
+      path: '/fight',
+      name: 'FightScreen',
+      component: FightScreen
     }
   ]
 })

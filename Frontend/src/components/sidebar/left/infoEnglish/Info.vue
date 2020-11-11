@@ -2,7 +2,7 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img class="index background" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        <img class="index background" src="https://ngochai220998.github.io/mywebsite/Attack%20(1).png" />
         <div class="avatar-level background">
           <div>
             <span title="Cấp độ">146</span>
@@ -23,7 +23,7 @@
         <div class="right-money">
           <div class="background">
             <span title="Tiền đô">2022200 $</span>
-            <a-icon class="achievement" title="Thành tựu" type="bg-colors"/>
+            <a-icon @click="clickAchievement" class="achievement" title="Thành tựu" type="bg-colors"/>
           </div>
         </div>
         <div class="right-point">
@@ -39,7 +39,16 @@
 
 <script>
 export default {
-  name: 'InfoComponent'
+  name: 'InfoComponent',
+  data () {
+    return {
+    }
+  },
+  methods: {
+    clickAchievement () {
+      this.$message.success('clicked Achievement')
+    }
+  }
 }
 </script>
 
@@ -61,6 +70,7 @@ export default {
           border-radius: 9999px;
           border: 3px solid green;
           cursor: pointer;
+          max-height: 100px;
         }
         &-level, &-top {
           position: absolute;
