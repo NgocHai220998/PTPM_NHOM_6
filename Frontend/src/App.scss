@@ -44,13 +44,19 @@
         flex-direction: column;
         &-top {
             height: 30%;
-            min-height: 150px;
+            min-height: 140px;
+            // background-color: rgba(0, 0, 0, 0.65);
+            margin: 10px 5px 0px 5px;
         }
         &-view {
             height: 100%;
+            margin: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 5px;
         }
         &-bot {
-            height: 100px;
+            height: 170px;
+            margin: 2px 5px;
         }
     }
     max-width: 1500px;
@@ -96,4 +102,59 @@
     background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
     background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
     background: -webkit-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+}
+
+
+.btn {
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+    white-space: nowrap!important;
+}
+
+.effect-mission {
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.5;
+    position: relative;
+    box-shadow: 0 0 5px #cc0000, 0 0 25px #cc0000, 0 0 50px #cc0000, 0 0 200px #cc0000!important;
+    span.effect {
+        position: absolute;
+        display: block;
+        &:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-90deg, transparent, #cc0000);
+            animation: animate2 1s linear infinite;
+            animation-delay: 0.25s;
+            overflow: hidden;
+        }
+        &:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #202099);
+            animation: animate4 1s linear infinite;
+            animation-delay: 0.75s;
+            overflow: hidden;
+        }
+    }
+}
+@keyframes animate2 {
+    0% {
+        top: -100%;
+    }
+    50%,100% {
+        top: 100%;
+    }
+}
+@keyframes animate4 {
+    0% {
+        bottom: -100%;
+    }
+    50%,100% {
+        bottom: 100%;
+    }
 }

@@ -1,19 +1,19 @@
 <template>
-  <HomeComponent />
+  <FightComponent />
 </template>
 
 <script>
 
-import HomeComponent from '../components/contents/home/Home'
+import FightComponent from '../components/contents/fight/Fight'
 
 export default {
-  name: 'HomeScreen',
+  name: 'FightScreen',
   data () {
     return {
     }
   },
   components: {
-    HomeComponent
+    FightComponent
   }
 }
 </script>

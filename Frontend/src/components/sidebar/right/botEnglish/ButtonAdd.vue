@@ -1,6 +1,12 @@
 <template>
   <section class="sidebar-addEnglish">
-    <a-button @click="showDrawer" class="btn-addEnglish background" type="primary"><a-icon type="plus" />Thêm</a-button>
+    <a-button @click="showDrawer" class="btn-addEnglish background" type="primary"><a-icon type="plus" />
+      <span class="effect"></span>
+      <span class="effect"></span>
+      <span class="effect"></span>
+      <span class="effect"></span>
+      Thêm
+    </a-button>
     <a-drawer
       title="Thêm Kanji"
       :height="330"
