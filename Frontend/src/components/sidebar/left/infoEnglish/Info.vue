@@ -31,7 +31,15 @@
             <span title="Kim cương"><a-icon type="radar-chart" /> 1998 Điểm</span>
           </div>
         </div>
-        <!-- <div class="right-hp"></div> -->
+      </div>
+      <div title="Trận hình" class="position">
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <router-link :to="{ name: 'PositionScreen' }">
+          <a-icon class="position-icon" type="border-left" />
+        </router-link>
       </div>
     </div>
   </section>
@@ -157,6 +165,16 @@ export default {
               opacity: 0.65;
             }
           }
+        }
+      }
+      .position {
+        position: absolute;
+        bottom: -35px;
+        right: 15px;
+        cursor: pointer;
+        &-icon {
+          font-size: 25px;
+          color: white;
         }
       }
     }
