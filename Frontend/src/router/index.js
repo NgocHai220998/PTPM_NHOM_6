@@ -6,6 +6,7 @@ import Login from '@/components/login/Login'
 import ForgotPassword from '@/components/login/ForgotPassword'
 import HomeScreen from '@/screens/HomeScreen'
 import FightScreen from '@/screens/FightScreen'
+import PositionScreen from '@/screens/PositionScreen'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ const router = new Router({
       path: '/fight',
       name: 'FightScreen',
       component: FightScreen
+    },
+    {
+      path: '/position',
+      name: 'PositionScreen',
+      component: PositionScreen
     }
   ]
 })

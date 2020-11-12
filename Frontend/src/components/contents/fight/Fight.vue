@@ -1,5 +1,5 @@
 <template>
-  <section class="fight-screen">
+  <section class="fight-page">
     <h1>FightScreen</h1>
   </section>
 </template>
