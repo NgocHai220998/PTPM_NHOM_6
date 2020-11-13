@@ -32,7 +32,7 @@ export default {
   },
   beforeMount () {
     this.currentRouter = this.$router.history.current.name
-    window.localStorage.setItem('server', 'JP')
+    window.localStorage.setItem('server', 'EN')
     // console.log(this.$router)
   },
   methods: {

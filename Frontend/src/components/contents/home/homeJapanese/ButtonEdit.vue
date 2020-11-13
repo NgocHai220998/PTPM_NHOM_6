@@ -1,117 +1,109 @@
 <template>
-  <section class="sidebar-addkanji">
-    <a-button @click="showDrawer" class="btn-addkanji background" type="primary"><a-icon type="plus" />
-      <span class="effect"></span>
-      <span class="effect"></span>
-      <span class="effect"></span>
-      <span class="effect"></span>
-      Thêm
+  <section :class="isHiden ? 'disabledBox' : ''" class="home-edit">
+    <a-button @click="showDrawer" class="btn-edit background-edit btn" type="primary"><a-icon type="form" />
+      Sửa
     </a-button>
     <a-drawer
-      title="Thêm Kanji"
+      title="Sửa một từ mới"
       :width="720"
-      :class="isHiden ? 'disabledBox' : ''"
       @close="onClose"
+      :placement="placement"
+      :class="isHiden ? 'disabledBox' : ''"
       :visible="visible"
       :bodyStyle="{ paddingBottom: '80px' }"
     >
-      <a-form
-        :form="form"
-        :class="isHiden ? 'disabledBox' : ''"
-        layout="vertical"
-        @submit="handleAdd"
-      >
+      <a-form :class="isHiden ? 'disabledBox' : ''" :form="form" layout="vertical">
         <a-row :gutter="16">
-          <a-col :span="12">
+          <a-col :span="6">
             <a-form-item label="Kanji:">
               <a-input
                 v-decorator="[
-                  'kanji',
+                  'kanji'
+                ]"
+                placeholder="Vui lòng nhập kanji"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item label="Hiragana:">
+              <a-input
+                v-decorator="[
+                  'hira',
                   {
-                    rules: [{ required: true, message: 'Xin vui lòng nhập kanji' }],
+                    rules: [{ required: true, message: 'Vui lòng nhập hiragana' }],
                   },
                 ]"
-                placeholder="Xin vui lòng nhập kanji"
+                placeholder="Vui lòng nhập hiragana"
               />
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="Âm Hán-Việt:">
+            <a-form-item label="Giải thích">
               <a-input
                 v-decorator="[
-                  'HV',
+                  'mean',
                   {
-                    rules: [{ required: true, message: 'Xin vui lòng nhập âm Hán-Việt' }],
+                    rules: [{ required: true, message: 'Vui lòng nhập giải thích' }],
                   },
                 ]"
-                placeholder="Xin vui lòng nhập âm Hán-Việt"
+                placeholder="Vui lòng nhập giải thích"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
-          <a-col :span="6">
-            <a-form-item label="Âm ON:">
-              <a-input
-                v-decorator="[
-                  'on'
-                ]"
-                placeholder="Vui lòng nhập âm ON"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="6">
-            <a-form-item label="Âm KUN:">
-              <a-input
-                v-decorator="[
-                  'kun'
-                ]"
-                placeholder="Vui lòng nhập âm KUN"
-              />
-            </a-form-item>
-          </a-col>
           <a-col :span="12">
             <a-form-item label="Ví dụ 1:">
               <a-input
                 v-decorator="[
                   'example_1'
                 ]"
-                placeholder="Vui lòng nhập ví dụ 1"
+                placeholder="Vui lòng thêm ví dụ 1"
               />
             </a-form-item>
           </a-col>
-        </a-row>
-        <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="Ví dụ 2:">
               <a-input
                 v-decorator="[
                   'example_2'
                 ]"
-                placeholder="Vui lòng nhập ví dụ 2"
+                placeholder="Vui lòng thêm ví dụ 2"
               />
             </a-form-item>
           </a-col>
+        </a-row>
+        <a-row :gutter="16">
           <a-col :span="12">
             <a-form-item label="Ví dụ 3:">
               <a-input
                 v-decorator="[
                   'example_3'
                 ]"
-                placeholder="Vui lòng nhập ví dụ 3"
+                placeholder="Vui lòng thêm ví dụ 3"
+              />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item label="Ví dụ 4:">
+              <a-input
+                v-decorator="[
+                  'example_4'
+                ]"
+                placeholder="Vui lòng thêm ví dụ 4"
               />
             </a-form-item>
           </a-col>
         </a-row>
         <a-row :gutter="16">
           <a-col :span="24">
-            <a-form-item label="Mô tả:">
+            <a-form-item label="Mô tả chi tiết:">
               <a-textarea
                 v-decorator="[
                   'description'
                 ]"
                 :rows="4"
-                placeholder="Vui lòng nhập mô tả"
+                placeholder="Vui lòng thêm chi tiêt giải thích từ ở trên, phần này sẽ hiện khi bạn quên và muốn biết giải thích của nó là gì"
               />
             </a-form-item>
           </a-col>
@@ -133,7 +125,7 @@
         <a-button :class="isHiden ? 'disabledBox' : ''" type="danger" :style="{ marginRight: '8px' }" @click="onClose">
           <a-icon type="rollback" />Thôi
         </a-button>
-        <a-button :class="isHiden ? 'disabledBox' : ''" class="btn-addEnglish background" @click="handleAdd" type="primary"><a-icon type="plus" />Thêm</a-button>
+        <a-button :class="isHiden ? 'disabledBox' : ''" class="background" @click="handleEdit" type="primary"><a-icon type="form" />Sửa</a-button>
       </div>
     </a-drawer>
   </section>
@@ -142,23 +134,25 @@
 <script>
 const key = 'updatable'
 export default {
-  name: 'AddKanji',
+  name: 'EditHome',
   data () {
     return {
       form: this.$form.createForm(this),
       visible: false,
-      loading: false,
+      placement: 'left',
       isHiden: false // disable box while loading
     }
   },
   methods: {
     showDrawer () {
       this.visible = true
+      this.$message.success('Open drawer')
     },
     onClose () {
       this.visible = false
+      this.$message.success('Close drawer')
     },
-    handleAdd (e) {
+    handleEdit (e) {
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (!error) {
@@ -171,10 +165,23 @@ export default {
           }, 2000)
         }
       })
+    },
+    handleCancel (e) {
+      this.$message.warning('handle cancel')
+      this.visible = false
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  .home-edit {
+    text-align: center;
+    margin-bottom: 3px;
+    .btn {
+      width: 92px;
+      max-width: 92px;
+      min-width: 92px;
+    }
+  }
 </style>
