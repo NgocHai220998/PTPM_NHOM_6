@@ -5,12 +5,14 @@
       title="Thêm Kanji"
       :height="330"
       @close="onClose"
+      :class="isHiden ? 'disabledBox' : ''"
       :visible="visible"
       :placement="placement"
       :bodyStyle="{ paddingBottom: '80px' }"
     >
       <a-form
         :form="form"
+        :class="isHiden ? 'disabledBox' : ''"
         layout="vertical"
         @submit="handleEdit"
       >
@@ -98,10 +100,10 @@
           zIndex: 1,
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">
-          Thôi
+        <a-button :class="isHiden ? 'disabledBox' : ''" type="danger" :style="{ marginRight: '8px' }" @click="onClose">
+          <a-icon type="rollback" />Thôi
         </a-button>
-        <a-button class="background" @click="handleEdit" type="primary"><a-icon type="plus" />Sửa</a-button
+        <a-button :class="isHiden ? 'disabledBox' : ''" class="background" @click="handleEdit" type="primary"><a-icon type="plus" />Sửa</a-button
         >
       </div>
     </a-drawer>
@@ -109,6 +111,7 @@
 </template>
 
 <script>
+const key = 'updatable'
 export default {
   name: 'EditEnglish',
   data () {
@@ -116,7 +119,8 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       loading: false,
-      placement: 'top'
+      placement: 'top',
+      isHiden: false // disable box while loading
     }
   },
   methods: {
@@ -130,7 +134,13 @@ export default {
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (!error) {
-          this.$message.warning('handleEdit')
+          this.isHiden = true
+          this.$message.loading({ content: 'Vui lòng đợi, chúng tôi đang xử lý yêu cầu cho bạn...', key })
+          setTimeout(() => {
+            this.visible = false
+            this.isHiden = false
+            this.$message.success({ content: 'Xong :3', key, duration: 2 })
+          }, 2000)
         }
       })
     }

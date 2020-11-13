@@ -87,7 +87,7 @@ export default {
         position: -3,
         index: -3
       }],
-      isHiden: false
+      isHiden: false // disable box while loading
     }
   },
   methods: {
