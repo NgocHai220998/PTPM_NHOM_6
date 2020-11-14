@@ -39,7 +39,10 @@ module.exports = (req, res) => {
                     email: result.data.email,
                     token: token,
                     userID: result.data.userID,
-                    information: result.data.information
+                    server: {
+                      serverJP: result.data.serverJP,
+                      serverEN: result.data.serverEN
+                    }
                   }
                 }
               });
@@ -63,7 +66,7 @@ module.exports = (req, res) => {
             }
           })
         }
-      } else if (result.code == 405) { // Email does not exist!
+      } else if (result.code == 200) { // Email does not exist!
         res.json({
           code: 405,
           title: 'Error',
