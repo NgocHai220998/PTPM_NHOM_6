@@ -1,7 +1,16 @@
 <template>
   <section class="sidebar-right-top-container">
     <Language />
-    <a-button type="danger"><a-icon type="logout" />Đăng xuất</a-button>
+    <div>
+      <a-popconfirm
+        title="Bạn chắc chắn muốn đăng xuất chứ？"
+        okText="Muốn"
+        cancelText="Thôi"
+        @confirm="confirmLogout"
+      >
+        <a-button type="danger"><a-icon type="logout" />Đăng xuất</a-button>
+      </a-popconfirm>
+    </div>
   </section>
 </template>
 
@@ -17,6 +26,12 @@ export default {
   },
   components: {
     Language
+  },
+  methods: {
+    confirmLogout () {
+      localStorage.removeItem('user')
+      window.location.reload()
+    }
   }
 }
 </script>

@@ -1,19 +1,27 @@
 <template>
-  <header id="header">
-    <h1>Header</h1>
-  </header>
+  <section id="header">
+    <Function />
+  </section>
 </template>
 
 <script>
 
+import Function from './function/Function'
+
 export default {
-  name: 'LearnHeader',
+  name: 'GamLHeader',
   data () {
     return {
     }
+  },
+  components: {
+    Function
   }
 }
 </script>
 
 <style lang="scss" scoped>
+  #header {
+    background-color: rgba(0, 0, 0, 0.65);
+  }
 </style>

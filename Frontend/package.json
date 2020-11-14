@@ -23,18 +23,11 @@
     "crypto-js": "^3.1.9-1",
     "express": "^4.17.1",
     "jwt-decode": "^2.2.0",
-    "remove": "^0.1.5",
-    "reqwest": "^2.0.5",
-    "serve-static": "^1.14.1",
     "socket.io-client": "^2.3.0",
     "vue": "^2.5.2",
     "vue-chartjs": "^3.4.0",
     "vue-i18n": "^8.12.0",
-    "vue-markdown": "^2.2.4",
-    "vue-qriously": "^1.1.1",
-    "vue-recaptcha": "^1.1.1",
     "vue-router": "^3.0.1",
-    "vue-scrollto": "^2.13.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -109,8 +102,8 @@
     "webpack-merge": "^4.1.0"
   },
   "engines": {
-    "node": "12.16.1",
-    "npm": "6.13.4"
+    "node": "12.16.x",
+    "npm": "6.x"
   },
   "browserslist": [
     "> 1%",
@@ -121,8 +114,7 @@
     "ignore": [
       "/test/unit/specs/*",
       "app.js",
-      "/src/store/modules/i18n.js",
-      "/src/components/sidebar/left/chatbox"
+      "/src/store/modules/i18n.js"
     ]
   }
 }

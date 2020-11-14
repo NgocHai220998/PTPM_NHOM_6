@@ -14,6 +14,12 @@
    padding: 0;
 }
 #app {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
     background-image: url("/static/images/backgroundLogin.jpg");
     display: flex;
     &-left {
@@ -44,13 +50,19 @@
         flex-direction: column;
         &-top {
             height: 30%;
-            min-height: 150px;
+            min-height: 140px;
+            // background-color: rgba(0, 0, 0, 0.65);
+            margin: 10px 5px 0px 5px;
         }
         &-view {
             height: 100%;
+            margin: 5px;
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 5px;
         }
         &-bot {
-            height: 100px;
+            height: 170px;
+            margin: 2px 5px;
         }
     }
     max-width: 1500px;
@@ -71,10 +83,10 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #888; 
-    background: -moz-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
-    background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
-    background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
-    background: -webkit-radial-gradient(top left, circle farthest-corner, #000022 0%, #cc0000 100%);
+    background: -moz-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%);
+    background: -o-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%);
+    background: -ms-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%);
+    background: -webkit-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%);
 }
 
 /* Handle on hover */
@@ -85,15 +97,80 @@
 
 
 .background {
-    background: -moz-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
-    background: -o-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
-    background: -ms-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    // background: -moz-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    // background: -o-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    // background: -ms-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
     background: -webkit-radial-gradient(top left, circle farthest-corner, #202099 0%, #cc0000 100%)!important;
+    &:hover {
+        background: -webkit-radial-gradient(top left, circle farthest-corner, #cc0000 0%, #202099 100%)!important;
+    }
 }
 
 .background-edit {
-    background: -moz-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
-    background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
-    background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    // background: -moz-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    // background: -o-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    // background: -ms-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
     background: -webkit-radial-gradient(top left, circle farthest-corner, #000022 0%, #FFFF00 100%)!important;
+    &:hover {
+        background: -webkit-radial-gradient(top left, circle farthest-corner, #FFFF00 0%, #000022 100%)!important;
+    }
+}
+
+.disabledBox {
+    pointer-events: none;
+    opacity: 0.65;
+  }
+
+.btn {
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+    white-space: nowrap!important;
+}
+
+.effect-mission {
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.5;
+    position: relative;
+    box-shadow: 0 0 5px #cc0000, 0 0 25px #cc0000, 0 0 50px #cc0000, 0 0 200px #cc0000!important;
+    span.effect {
+        position: absolute;
+        display: block;
+        &:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(-90deg, transparent, #cc0000);
+            animation: animate2 1s linear infinite;
+            animation-delay: 0.25s;
+            overflow: hidden;
+        }
+        &:nth-child(4) {
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #202099);
+            animation: animate4 1s linear infinite;
+            animation-delay: 0.75s;
+            overflow: hidden;
+        }
+    }
+}
+@keyframes animate2 {
+    0% {
+        top: -100%;
+    }
+    50%,100% {
+        top: 100%;
+    }
+}
+@keyframes animate4 {
+    0% {
+        bottom: -100%;
+    }
+    50%,100% {
+        bottom: 100%;
+    }
 }

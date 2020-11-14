@@ -17,10 +17,12 @@
     </div>
     <div class="content">
       <div class="text-voca">
-        <span>Hello</span>
+        <span v-if="badWord.badWord !== ''">Hello</span>
+        <span v-else>Chúng ta bắt đầu chứ? </span>
       </div>
       <div class="text-spell">
-        <span>/hə'lou/</span>
+        <span v-if="badWord.badWord !== ''">/hə'lou/</span>
+        <span v-else>Are you ready?</span>
       </div>
     </div>
     <div class="bottom">
@@ -28,8 +30,8 @@
         <a-button type="primary"> <a-icon type="left" /></a-button>
         <a-button type="primary"><a-icon type="right" /></a-button>
       </a-button-group>
-      <a-button class="btn" @click="isRandom = !isRandom" :type="isRandom ? 'primary' : ''">Ngẫu nhiên</a-button>
-      <a-button class="btn" @click="isAuto = !isAuto" :type="isAuto ? 'primary' : ''">Tự động</a-button>
+      <a-button class="btn" @click="isRandom = !isRandom" :type="isRandom ? 'primary' : 'danger'">Ngẫu nhiên</a-button>
+      <a-button class="btn" @click="isAuto = !isAuto" :type="isAuto ? 'primary' : 'danger'">Tự động</a-button>
     </div>
   </section>
 </template>
@@ -38,25 +40,80 @@
 
 import ButtonAdd from './ButtonAdd'
 import ButtonEdit from './ButtonEdit'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'voca',
   data () {
     return {
       isRandom: false,
-      isAuto: false
+      isAuto: false,
+      badWord: {
+        badWord: ''
+      },
+      user: null,
+      index: 0,
+      interval: null,
+      isNext: true
     }
   },
   components: {
     ButtonAdd,
     ButtonEdit
   },
+  computed: {
+    ...mapGetters(['badWords'])
+  },
   methods: {
+    ...mapActions(['getBadWords']),
     confirmDelete () {
       this.$message.success('Okie')
     },
     cancelDelete () {
       this.$message.success('Cancel')
+    },
+    run (isNext) {
+      if (this.isRandom) {
+        this.index = Math.floor(Math.random() * this.examples.length)
+      } else {
+        if (isNext) {
+          if (this.index < this.examples.length - 1) {
+            this.index++
+          } else {
+            this.isNext = false
+          }
+        } else {
+          if (this.index > 0) {
+            this.index--
+          } else {
+            this.isNext = true
+          }
+        }
+      }
+      if (this.examples.length > 0) {
+        this.example = this.examples[this.index]
+      } else {
+        this.example = {
+          example: ''
+        }
+      }
+    }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
+    // this.getBadWords({
+    //   email: this.user.email
+    // })
+  },
+  watch: {
+    isAuto: function () {
+      if (this.isAuto) {
+        this.interval = setInterval(() => {
+          this.run(this.isNext)
+        }, 100)
+      } else {
+        clearInterval(this.interval)
+      }
     }
   }
 }
@@ -69,7 +126,9 @@ export default {
       position: absolute;
       top: 50%;
       right: 50%;
+      width: 90%;
       margin: 0 auto;
+      text-align: center;
       transform: translate(50%, -50%);
       .text-voca {
         span {
@@ -90,9 +149,6 @@ export default {
       bottom: 0px;
       .btn {
         max-width: 80px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         margin-left: 5px;
       }
     }

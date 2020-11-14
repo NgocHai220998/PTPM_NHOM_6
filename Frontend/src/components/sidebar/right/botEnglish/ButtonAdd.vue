@@ -1,9 +1,16 @@
 <template>
   <section class="sidebar-addEnglish">
-    <a-button @click="showDrawer" class="btn-addEnglish background" type="primary"><a-icon type="plus" />Thêm</a-button>
+    <a-button @click="showDrawer" class="btn-addEnglish background" type="primary"><a-icon type="plus" />
+      <span class="effect"></span>
+      <span class="effect"></span>
+      <span class="effect"></span>
+      <span class="effect"></span>
+      Thêm
+    </a-button>
     <a-drawer
       title="Thêm Kanji"
       :height="330"
+      :class="isHiden ? 'disabledBox' : ''"
       @close="onClose"
       :visible="visible"
       :placement="placement"
@@ -11,6 +18,7 @@
     >
       <a-form
         :form="form"
+        :class="isHiden ? 'disabledBox' : ''"
         layout="vertical"
         @submit="handleAdd"
       >
@@ -98,10 +106,10 @@
           zIndex: 1,
         }"
       >
-        <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">
-          Thôi
+        <a-button :class="isHiden ? 'disabledBox' : ''" type="danger" :style="{ marginRight: '8px' }" @click="onClose">
+          <a-icon type="rollback" />Thôi
         </a-button>
-        <a-button class="background" @click="handleAdd" type="primary"><a-icon type="plus" />Thêm</a-button
+        <a-button :class="isHiden ? 'disabledBox' : ''" class="background" @click="handleAdd" type="primary"><a-icon type="plus" />Thêm</a-button
         >
       </div>
     </a-drawer>
@@ -109,6 +117,7 @@
 </template>
 
 <script>
+const key = 'updatable'
 export default {
   name: 'addEnglish',
   data () {
@@ -116,7 +125,8 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       loading: false,
-      placement: 'top'
+      placement: 'top',
+      isHiden: false // disable box while loading
     }
   },
   methods: {
@@ -130,7 +140,13 @@ export default {
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (!error) {
-          this.$message.warning('HandleAdd')
+          this.isHiden = true
+          this.$message.loading({ content: 'Vui lòng đợi, chúng tôi đang xử lý yêu cầu cho bạn...', key })
+          setTimeout(() => {
+            this.visible = false
+            this.isHiden = false
+            this.$message.success({ content: 'Xong :3', key, duration: 2 })
+          }, 2000)
         }
       })
     }

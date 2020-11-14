@@ -1,12 +1,10 @@
 <template>
-  <div class="home-page">
-    <home-component></home-component>
-  </div>
+  <HomeComponent />
 </template>
 
 <script>
 
-import HomeComponent from '../components/contents/Home'
+import HomeComponent from '../components/contents/home/Home'
 
 export default {
   name: 'HomeScreen',

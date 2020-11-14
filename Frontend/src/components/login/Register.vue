@@ -78,7 +78,7 @@
         </a-form-item>
         <a-form-item class="btn-submit-register">
           <a-spin :spinning="loading" :delay="0" class="spin-button">
-            <a-button class="register-button" type="primary" htmlType="submit">{{ $t('login.btn-signup') }}</a-button>
+            <a-button class="register-button" type="primary" htmlType="submit"><a-icon type="plus" />{{ $t('login.btn-signup') }}</a-button>
           </a-spin>
         </a-form-item>
         <a-form-item style="text-align: right;">

@@ -2,7 +2,7 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img class="index background" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        <img width="100" height="100" class="index background" :src="user.main.srcImage" />
         <div class="avatar-level background">
           <div>
             <span title="Cấp độ">146</span>
@@ -17,13 +17,13 @@
       <div class="right">
         <div class="right-name">
           <div class="background">
-            <span title="Tên nhân vật">NgocHai</span>
+            <span title="Tên nhân vật">{{ user.main.userName }}</span>
           </div>
         </div>
         <div class="right-money">
           <div class="background">
             <span title="Tiền yên">2022200 円</span>
-            <a-icon class="achievement" title="Thành tựu" type="bg-colors"/>
+            <a-icon @click="clickAchievement" class="achievement" title="Thành tựu" type="bg-colors"/>
           </div>
         </div>
         <div class="right-point">
@@ -31,7 +31,15 @@
             <span title="Kim cương"><a-icon type="radar-chart" /> 1998 Điểm</span>
           </div>
         </div>
-        <!-- <div class="right-hp"></div> -->
+      </div>
+      <div title="Trận hình" class="position">
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <span class="effect"></span>
+        <router-link class="position-icon" :to="{ name: 'PositionScreen' }">
+          <a-icon class="position-icon" type="border-left" />
+        </router-link>
       </div>
     </div>
   </section>
@@ -39,7 +47,20 @@
 
 <script>
 export default {
-  name: 'InfoComponent'
+  name: 'InfoComponent',
+  data () {
+    return {
+      user: null
+    }
+  },
+  methods: {
+    clickAchievement () {
+      this.$message.success('clicked Achievement')
+    }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
+  }
 }
 </script>
 
@@ -61,6 +82,7 @@ export default {
           border-radius: 9999px;
           border: 3px solid green;
           cursor: pointer;
+          max-height: 100px;
         }
         &-level, &-top {
           position: absolute;
@@ -147,6 +169,16 @@ export default {
               opacity: 0.65;
             }
           }
+        }
+      }
+      .position {
+        position: absolute;
+        bottom: -35px;
+        right: 15px;
+        cursor: pointer;
+        &-icon {
+          font-size: 25px;
+          color: white;
         }
       }
     }

@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import userService from '@/utils/userServices'
-import Register from '@/components/login/register'
+import Register from '@/components/login/Register'
 import Login from '@/components/login/Login'
 import ForgotPassword from '@/components/login/ForgotPassword'
 import HomeScreen from '@/screens/HomeScreen'
+import FightScreen from '@/screens/FightScreen'
+import PositionScreen from '@/screens/PositionScreen'
 
 Vue.use(Router)
 
@@ -14,7 +16,8 @@ const router = new Router({
     {
       path: '/',
       name: 'HomeScreen',
-      component: HomeScreen
+      component: HomeScreen,
+      meta: { auth: true }
     },
     {
       path: '/register',
@@ -30,6 +33,18 @@ const router = new Router({
       path: '/reset-password',
       name: 'ForgotPassword',
       component: ForgotPassword
+    },
+    {
+      path: '/fight',
+      name: 'FightScreen',
+      component: FightScreen,
+      meta: { auth: true }
+    },
+    {
+      path: '/position',
+      name: 'PositionScreen',
+      component: PositionScreen,
+      meta: { auth: true }
     }
   ]
 })

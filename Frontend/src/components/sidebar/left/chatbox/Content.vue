@@ -2,8 +2,8 @@
   <section class="chatbox-content">
     <div id="chat-box" class="index">
       <p v-for="(message, index) in data" :key="index">
-        <span class="name-message">๖ۣۜGấu๖ۣۜNC:</span>
-        <span class="content-message">{{ message }}</span>
+        <span class="name-message">{{ message.name }}:</span>
+        <span class="content-message">{{ message.content }}</span>
       </p>
     </div>
   </section>
@@ -15,7 +15,10 @@ import io from 'socket.io-client'
 export default {
   data () {
     return {
-      data: ['2', '3', '4'],
+      data: [{
+        name: 'GameLanguage',
+        content: 'Chào mừng bạn đến với GameLanguage, chúc bạn có một trải nghiệm vui vẻ!'
+      }],
       socket: io.connect('http://localhost:4000')
     }
   },
@@ -27,7 +30,7 @@ export default {
       })
     },
     connectSocket () {
-      this.socket.on('getMessage', (message) => {
+      this.socket.on('ServerSendMessage', (message) => {
         this.data.push(message)
         this.scrollToBottom()
       })

@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', (event) => {
   chatBox.style.height = (windowHieght - 335) + 'px'
   chatBoxContent.style.height = windowHieght - 330 - 65 + 'px'
 
-
   const sidebarKanji = document.getElementsByClassName('sidebar-right-bot')[0]
   sidebarKanji.style.height = (windowHieght - 430) + 'px'
 })
