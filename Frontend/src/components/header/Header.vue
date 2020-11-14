@@ -1,28 +1,21 @@
 <template>
   <section id="header">
-    <Function v-if="server === 'JP'" />
-    <FunctionEnglish v-else-if="server === 'EN'" />
+    <Function />
   </section>
 </template>
 
 <script>
 
 import Function from './function/Function'
-import FunctionEnglish from './functionEnglish/Function'
 
 export default {
-  name: 'LearnHeader',
+  name: 'GamLHeader',
   data () {
     return {
-      server: ''
     }
   },
   components: {
-    Function,
-    FunctionEnglish
-  },
-  beforeMount () {
-    this.server = localStorage.getItem('server')
+    Function
   }
 }
 </script>

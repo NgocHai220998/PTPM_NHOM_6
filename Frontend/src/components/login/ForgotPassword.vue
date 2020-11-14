@@ -13,7 +13,7 @@
         </p>
         <a-spin :spinning="loadingGetCode" :delay="0">
           <a-input-search v-model="email" placeholder="Email" @search="onSearch" size="large">
-            <a-button style="background-color: #007ADD; color: white;" slot="enterButton">Get code</a-button>
+            <a-button style="background-color: #007ADD; color: white;" slot="enterButton"><a-icon type="vertical-align-bottom" />Get code</a-button>
           </a-input-search>
         </a-spin>
         <a-form-item
@@ -65,7 +65,7 @@
         </a-form-item>
         <a-form-item class="btn-submit-forgot-password">
           <a-spin :spinning="loading" :delay="0" class="spin-button">
-            <a-button class="forgot-password-button" type="primary" htmlType="submit">{{ $t('login.btn-forgot-password') }}</a-button>
+            <a-button class="forgot-password-button" type="primary" htmlType="submit"><a-icon type="retweet" />{{ $t('login.btn-forgot-password') }}</a-button>
           </a-spin>
         </a-form-item>
         <a-form-item style="text-align: right;">

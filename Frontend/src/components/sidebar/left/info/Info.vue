@@ -2,7 +2,7 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img class="index background" src="https://ngochai220998.github.io/mywebsite/Attack%20(1).png" />
+        <img width="100" height="100" class="index background" :src="user.main.srcImage" />
         <div class="avatar-level background">
           <div>
             <span title="Cấp độ">146</span>
@@ -17,7 +17,7 @@
       <div class="right">
         <div class="right-name">
           <div class="background">
-            <span title="Tên nhân vật">NgocHai</span>
+            <span title="Tên nhân vật">{{ user.main.userName }}</span>
           </div>
         </div>
         <div class="right-money">
@@ -50,12 +50,16 @@ export default {
   name: 'InfoComponent',
   data () {
     return {
+      user: null
     }
   },
   methods: {
     clickAchievement () {
       this.$message.success('clicked Achievement')
     }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>

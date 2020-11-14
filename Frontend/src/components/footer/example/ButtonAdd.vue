@@ -41,7 +41,7 @@
             <a-form-item label="Giải thích:">
               <a-input
                 v-decorator="[
-                  'mean',
+                  'explain',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập Giải thích' }],
                   },
@@ -57,6 +57,10 @@
 </template>
 
 <script>
+
+import { API } from '@/constants/api'
+import { postMethod, jsonHeader } from '@/utils/fetchTool'
+
 export default {
   name: 'AddFooterLeft',
   data () {
@@ -64,7 +68,8 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       placement: 'top',
-      confirmLoading: false
+      confirmLoading: false,
+      user: null
     }
   },
   methods: {
@@ -76,11 +81,30 @@ export default {
       this.form.validateFields((error, values) => {
         if (!error) {
           this.confirmLoading = true
-          this.$message.warning('HandleAdd')
-          setTimeout(() => {
-            this.visible = false
-            this.confirmLoading = false
-          }, 2000)
+          fetch(API.CREATE_EXAMPLE, {
+            headers: jsonHeader.headers,
+            method: postMethod.method,
+            body: JSON.stringify({
+              token: this.user.token,
+              data: {
+                example: values.example,
+                explain: values.explain
+              }
+            })
+          }).then((response) => response.json())
+            .then((res) => {
+              this.visible = false
+              this.confirmLoading = false
+              if (res.code === 200) {
+                this.$message.success(res.data.message)
+                this.$emit('addDone')
+              } else {
+                this.$message.error(res.data.message)
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       })
     },
@@ -88,6 +112,9 @@ export default {
       this.$message.warning('handle cancel')
       this.visible = false
     }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>
