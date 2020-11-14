@@ -1,7 +1,7 @@
 <template>
   <section class="left">
-    <ButtonAdd class="add" />
-    <ButtonEdit class="edit" />
+    <ButtonAdd @addDone="$emit('addDone')" :example="example" class="add" />
+    <ButtonEdit @editDone="$emit('editDone')" :example="example" class="edit" />
     <div class="delete">
       <a-popconfirm
         title="Bạn chắc chắn muốn xóa chứ？"
@@ -18,6 +18,8 @@
 
 <script>
 
+import { API } from '@/constants/api'
+import { jsonHeader } from '@/utils/fetchTool'
 import ButtonAdd from './ButtonAdd'
 import ButtonEdit from './ButtonEdit'
 
@@ -27,13 +29,28 @@ export default {
     return {
     }
   },
+  props: ['example'],
   components: {
     ButtonAdd,
     ButtonEdit
   },
   methods: {
     confirmDelete () {
-      this.$message.success('Delete')
+      fetch(`${API.DELETE_EXAMPLE}/${this.example._id}`, {
+        headers: jsonHeader.headers,
+        method: 'delete'
+      }).then((response) => response.json())
+        .then((res) => {
+          if (res.code === 200) {
+            this.$message.success(res.data.message)
+            this.$emit('deleteDone')
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     cancelDelete () {
       this.$message.warning('cancel Delete')

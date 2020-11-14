@@ -16,7 +16,8 @@ const router = new Router({
     {
       path: '/',
       name: 'HomeScreen',
-      component: HomeScreen
+      component: HomeScreen,
+      meta: { auth: true }
     },
     {
       path: '/register',
@@ -36,12 +37,14 @@ const router = new Router({
     {
       path: '/fight',
       name: 'FightScreen',
-      component: FightScreen
+      component: FightScreen,
+      meta: { auth: true }
     },
     {
       path: '/position',
       name: 'PositionScreen',
-      component: PositionScreen
+      component: PositionScreen,
+      meta: { auth: true }
     }
   ]
 })

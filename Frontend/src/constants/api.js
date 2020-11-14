@@ -16,7 +16,18 @@ const API = {
   LOGIN: `${config.BACKEND_ADDRESS}/api/users/login`,
   FORGOT_PASSWORD: `${config.BACKEND_ADDRESS}/api/users/forgot-password`,
   GET_CODE: `${config.BACKEND_ADDRESS}/api/users/send-email-code`,
-  SEND_EMAIL_REGISTER: `${config.BACKEND_ADDRESS}/api/users/send-email-register`
+  SEND_EMAIL_REGISTER: `${config.BACKEND_ADDRESS}/api/users/send-email-register`,
+  CREATE_MAIN: `${config.BACKEND_ADDRESS}/api/main`,
+  // API word
+  CREATE_WORD: `${config.BACKEND_ADDRESS}/api/word`,
+  UPDATE_WORD: `${config.BACKEND_ADDRESS}/api/word`,
+  DELETE_WORD: `${config.BACKEND_ADDRESS}/api/word`,
+  GET_WORDS: `${config.BACKEND_ADDRESS}/api/word`,
+  // API example
+  CREATE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
+  UPDATE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
+  DELETE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
+  GET_EXAMPLES: `${config.BACKEND_ADDRESS}/api/example`
 }
 
 const SOCKET_EVENT = {

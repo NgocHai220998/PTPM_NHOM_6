@@ -48,7 +48,8 @@ export default {
       emojis: emoji,
       visible: false,
       number: 1,
-      socket: io.connect('http://localhost:4000')
+      socket: io.connect('http://localhost:4000'),
+      user: null
     }
   },
   methods: {
@@ -58,13 +59,19 @@ export default {
       } else if (this.message.length > 50) {
         this.$message.warning('Your message exceeds the allowable limit! 50 char')
       } else if (this.message.trim() !== '') {
-        this.socket.emit('clientSend', this.message)
+        this.socket.emit('clientSendMessage', {
+          name: this.user.main.userName,
+          content: this.message
+        })
         this.message = ''
       }
     },
     selectIcon (val) {
       this.message = this.message + val
     }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>
