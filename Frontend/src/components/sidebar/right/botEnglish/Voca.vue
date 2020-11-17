@@ -1,15 +1,14 @@
 <template>
   <section class="voca-container">
     <div style="display: flex; justify-content: space-between;">
-      <ButtonAdd />
-      <ButtonEdit />
+      <ButtonAdd :badWord="badWord" @addDone="addDone"/>
+      <ButtonEdit :badWord="badWord" @editDone="editDone" />
       <div>
         <a-popconfirm
           title="Bạn chắc chắn muốn xóa chứ？"
           okText="Xóa luôn"
           cancelText="Thôi"
           @confirm="confirmDelete"
-          @cancel="cancelDelete"
         >
           <a-button type="danger"><a-icon type="delete" />Xóa</a-button>
         </a-popconfirm>
@@ -17,18 +16,18 @@
     </div>
     <div class="content">
       <div class="text-voca">
-        <span v-if="badWord.badWord !== ''">Hello</span>
+        <span v-if="badWord.badWord !== ''">{{ badWord.badWord }}</span>
         <span v-else>Chúng ta bắt đầu chứ? </span>
       </div>
       <div class="text-spell">
-        <span v-if="badWord.badWord !== ''">/hə'lou/</span>
+        <span v-if="badWord.badWord !== ''">{{ badWord.explain }}</span>
         <span v-else>Are you ready?</span>
       </div>
     </div>
     <div class="bottom">
       <a-button-group style="display: flex;">
-        <a-button type="primary"> <a-icon type="left" /></a-button>
-        <a-button type="primary"><a-icon type="right" /></a-button>
+        <a-button @click="run(false)" type="primary"> <a-icon type="left" /></a-button>
+        <a-button @click="run(true)" type="primary"><a-icon type="right" /></a-button>
       </a-button-group>
       <a-button class="btn" @click="isRandom = !isRandom" :type="isRandom ? 'primary' : 'danger'">Ngẫu nhiên</a-button>
       <a-button class="btn" @click="isAuto = !isAuto" :type="isAuto ? 'primary' : 'danger'">Tự động</a-button>
@@ -38,6 +37,8 @@
 
 <script>
 
+import { API } from '@/constants/api'
+import { jsonHeader } from '@/utils/fetchTool'
 import ButtonAdd from './ButtonAdd'
 import ButtonEdit from './ButtonEdit'
 import { mapGetters, mapActions } from 'vuex'
@@ -67,17 +68,29 @@ export default {
   methods: {
     ...mapActions(['getBadWords']),
     confirmDelete () {
-      this.$message.success('Okie')
-    },
-    cancelDelete () {
-      this.$message.success('Cancel')
+      fetch(`${API.DELETE_BADWORD}/${this.badWord._id}`, {
+        headers: jsonHeader.headers,
+        method: 'delete'
+      }).then((response) => response.json())
+        .then((res) => {
+          if (res.code === 200) {
+            this.$message.success(res.data.message)
+            this.deleteDone()
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
     run (isNext) {
+      console.log(this.badWords)
       if (this.isRandom) {
-        this.index = Math.floor(Math.random() * this.examples.length)
+        this.index = Math.floor(Math.random() * this.badWords.length)
       } else {
         if (isNext) {
-          if (this.index < this.examples.length - 1) {
+          if (this.index < this.badWords.length - 1) {
             this.index++
           } else {
             this.isNext = false
@@ -90,20 +103,38 @@ export default {
           }
         }
       }
-      if (this.examples.length > 0) {
-        this.example = this.examples[this.index]
+      if (this.badWords.length > 0) {
+        this.badWord = this.badWords[this.index]
       } else {
-        this.example = {
-          example: ''
+        this.badWord = {
+          badWord: ''
         }
       }
+    },
+    editDone () {
+      this.getBadWords({
+        email: this.user.email
+      })
+      this.run()
+    },
+    addDone () {
+      this.getBadWords({
+        email: this.user.email
+      })
+      this.run()
+    },
+    deleteDone () {
+      this.getBadWords({
+        email: this.user.email
+      })
+      this.run()
     }
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
-    // this.getBadWords({
-    //   email: this.user.email
-    // })
+    this.getBadWords({
+      email: this.user.email
+    })
   },
   watch: {
     isAuto: function () {
