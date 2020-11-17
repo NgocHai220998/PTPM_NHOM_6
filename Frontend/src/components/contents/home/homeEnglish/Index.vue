@@ -33,10 +33,10 @@
       </div>
       <div class="text-question">
         <div class="text">
-          <span>{{ currentWord }}</span>
+          <span>{{ word.explain }}</span>
         </div>
-        <div @click="handleClickLeftRight" class="left background"><a-icon type="double-left" /></div>
-        <div @click="handleClickLeftRight" class="right background"><a-icon type="double-right" /></div>
+        <div @click="run(false)" class="left background"><a-icon type="double-left" /></div>
+        <div @click="run(true)" class="right background"><a-icon type="double-right" /></div>
       </div>
       <div class="bot">
         <!-- Answer by entering the answer -->
@@ -48,17 +48,8 @@
         <!-- Answer by choosing multiple choice answers -->
         <div v-show="isChoice" class="choice-answer">
           <div class="container">
-            <div @click="handleChoice" class="item background">
-              <span>Tiếng Nhật</span>
-            </div>
-            <div @click="handleChoice" class="item background">
-              <span>Tiếng Anh</span>
-            </div>
-            <div @click="handleChoice" class="item background">
-              <span>Tiếng Đức</span>
-            </div>
-            <div @click="handleChoice" class="item background">
-              <span>Tiếng Chó</span>
+            <div v-for="(wordAnswer, index) in getRandomAnswerChoice()" :key="index" @click="handleChoiceAnswer(wordAnswer)" class="item background">
+              <span>{{ wordAnswer.vocabulary }}</span>
             </div>
           </div>
         </div>
@@ -68,26 +59,8 @@
             <a-button class="background" slot="enterButton"><a-icon type="enter" /></a-button>
           </a-input-search>
           <div class="arr-char">
-            <div @click="handleChar" class="char background">
-              <span>E</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>n</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>g</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>l</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>i</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>s</span>
-            </div>
-            <div @click="handleChar" class="char background">
-              <span>h</span>
+            <div v-for="(char, index) in currentAnswer" :key="index" @click="handleChar(char)" class="char background">
+              <span>{{ char }}</span>
             </div>
           </div>
         </div>
@@ -95,15 +68,14 @@
     </div>
     <div class="right">
       <div class="group-button">
-        <ButtonAdd />
-        <ButtonEdit />
+        <ButtonAdd :word="word" @addDone="addDone"/>
+        <ButtonEdit :word="word" @editDone="editDone"/>
         <div class="delete">
           <a-popconfirm
             title="Bạn chắc chắn muốn xóa chứ？"
             okText="Xóa luôn"
             cancelText="Thôi"
             @confirm="confirmDelete"
-            @cancel="cancelDelete"
           >
             <a-button class="btn" type="danger"><a-icon type="delete" />Xóa</a-button>
           </a-popconfirm>
@@ -114,6 +86,9 @@
 </template>
 <script>
 
+import { API } from '@/constants/api'
+import { jsonHeader } from '@/utils/fetchTool'
+import { mapGetters, mapActions } from 'vuex'
 import ButtonAdd from './ButtonAdd'
 import ButtonEdit from './ButtonEdit'
 
@@ -125,39 +100,208 @@ export default {
       isInput: false,
       isChoice: false,
       isChoiceChar: true,
-      currentWord: 'English',
       isRandom: false,
-      isAuto: false
+      isAuto: false,
+      word: {
+        vocabulary: 'A đại ca ơi!',
+        explain: 'What'
+      },
+      interval: null,
+      index: 0,
+      isNext: true,
+      currentAnswer: 'hello',
+      listAnswer: [{
+        vocabulary: 'Tiếng Anh'
+      }, {
+        vocabulary: 'Tiếng Trung'
+      }, {
+        vocabulary: 'Tiếng Nhật'
+      }, {
+        vocabulary: 'Tiếng Ý'
+      }]
     }
+  },
+  computed: {
+    ...mapGetters(['words'])
   },
   components: {
     ButtonAdd,
     ButtonEdit
   },
   methods: {
+    ...mapActions(['getWords']),
     handleAnswerInput () {
       if (this.answerInput !== '') {
-        this.$message.success('Input Answer')
-        this.answerInput = ''
+        if (!this.checkAnswer()) {
+          this.openNotificationWithIcon('error', 'Sai sai rồi :((')
+        }
       } else {
         this.$message.error('Đáp án không được bỏ trống')
       }
     },
-    handleChoice () {
-      this.$message.success('Choice Answer')
+    handleChoiceAnswer (choiceAnswer) {
+      this.answerInput = choiceAnswer.vocabulary
+      if (this.answerInput !== '') {
+        if (!this.checkAnswer()) {
+          this.openNotificationWithIcon('error', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
+        } else {
+          this.openNotificationWithIcon('success', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
+        }
+      }
     },
-    handleChar () {
-      this.$message.success('Choice Char Answer')
+    handleChar (char) {
+      this.answerInput += char
     },
     confirmDelete () {
-      this.$message.success('Comfirm Delete')
+      fetch(`${API.DELETE_WORD}/${this.word._id}`, {
+        headers: jsonHeader.headers,
+        method: 'delete'
+      }).then((response) => response.json())
+        .then((res) => {
+          if (res.code === 200) {
+            this.$message.success(res.data.message)
+            this.deleteDone()
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
-    cancelDelete () {
-      this.$message.success('Cancel Delete')
+    run (isNext) {
+      if (this.isRandom) { // isRandom = true
+        this.index = Math.floor(Math.random() * this.words.length)
+      } else { // isRandom = false
+        if (isNext) { // next
+          if (this.index < this.words.length - 1) {
+            this.index++
+            this.currentAnswer = this.getRandomArray(this.word.vocabulary)
+          } else {
+            this.isNext = false
+            this.index = Math.floor(Math.random() * this.words.length)
+          }
+        } else { // back
+          if (this.index > 0) {
+            this.index--
+            this.currentAnswer = this.getRandomArray(this.word.vocabulary)
+          } else {
+            this.isNext = true
+            this.index = Math.floor(Math.random() * this.words.length)
+          }
+        }
+      }
+      if (this.words.length > 0) { // words !== []
+        this.word = this.words[this.index]
+        this.currentAnswer = this.getRandomArray(this.word.vocabulary)
+      } else {
+        this.word = {
+          vocabulary: 'A đại ca ơi!',
+          explain: 'What'
+        }
+      }
+      this.answerInput = ''
     },
-    handleClickLeftRight () {
-      this.$message.success('Click left right text question')
+    checkAnswer () {
+      if (this.answerInput.toUpperCase() === this.word.vocabulary.toUpperCase()) {
+        this.run(true)
+        return true
+      }
+      return false
+    },
+    editDone () {
+      this.getWords({
+        email: this.user.email
+      })
+      this.run()
+    },
+    addDone () {
+      this.getWords({
+        email: this.user.email
+      })
+      this.run()
+    },
+    deleteDone () {
+      this.getWords({
+        email: this.user.email
+      })
+      this.run()
+    },
+    getRandomArray (arr) {
+      let n = arr.split('').length
+      let result = new Array(arr.split('').length)
+      let len = arr.split('').length
+      let taken = new Array(len)
+      if (n > len) {
+        throw new RangeError('getRandom: more elements taken than available')
+      }
+      while (n--) {
+        let x = Math.floor(Math.random() * len)
+        result[n] = arr.split('')[x in taken ? taken[x] : x]
+        taken[x] = --len in taken ? taken[len] : len
+      }
+      return result
+    },
+    getRandomAnswerChoice () {
+      if (this.words.length > 0) {
+        this.listAnswer[0] = this.word
+        this.listAnswer[1] = this.words[Math.floor(Math.random() * this.words.length)]
+        this.listAnswer[2] = this.words[Math.floor(Math.random() * this.words.length)]
+        this.listAnswer[3] = this.words[Math.floor(Math.random() * this.words.length)]
+        let n = this.listAnswer.length
+        let result = new Array(this.listAnswer.length)
+        let len = this.listAnswer.length
+        let taken = new Array(len)
+        if (n > len) {
+          throw new RangeError('getRandom: more elements taken than available')
+        }
+        while (n--) {
+          let x = Math.floor(Math.random() * len)
+          result[n] = this.listAnswer[x in taken ? taken[x] : x]
+          taken[x] = --len in taken ? taken[len] : len
+        }
+        return result
+      }
+    },
+    openNotificationWithIcon (type, message) {
+      this.$notification[type]({
+        message: 'Game Language',
+        description: message,
+        duration: 2
+      })
     }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
+    this.getWords({
+      email: this.user.email
+    })
+    let dataHome = JSON.parse(localStorage.getItem('dataHome'))
+    console.log(dataHome)
+    this.isAuto = dataHome.isAuto
+    this.index = dataHome.index
+    this.isRandom = dataHome.isRandom
+  },
+  watch: {
+    isAuto: function () {
+      if (this.isAuto) {
+        this.interval = setInterval(() => {
+          this.run(this.isNext)
+        }, 500)
+      } else {
+        clearInterval(this.interval)
+      }
+    },
+    answerInput: function () {
+      this.checkAnswer()
+    }
+  },
+  beforeDestroy () {
+    localStorage.setItem('dataHome', JSON.stringify({
+      isAuto: this.isAuto,
+      isRandom: this.isRandom,
+      index: this.index
+    }))
   }
 }
 </script>

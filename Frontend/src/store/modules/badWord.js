@@ -2,29 +2,29 @@ import { API } from '@/constants/api'
 import { getMethod, jsonHeader } from '@/utils/fetchTool'
 
 const state = {
-  examples: []
+  badWords: []
 }
 
 const getters = {
-  examples (state) {
-    return state.examples
+  badWords (state) {
+    return state.badWords
   }
 }
 
 const mutations = {
-  GET_EXAMPLES (state, examples) {
-    state.examples = examples
+  GET_BADWORDS (state, badWords) {
+    state.badWords = badWords
   }
 }
 
 const actions = {
-  getExamples ({ commit }, data) {
-    window.fetch(`${API.GET_EXAMPLES}/${data.email}`, {
+  getBadWords ({ commit }, data) {
+    window.fetch(`${API.GET_BADWORDS}/${data.email}`, {
       headers: jsonHeader.headers,
       method: getMethod.method
     }).then((response) => response.json())
       .then((res) => {
-        commit('GET_EXAMPLES', res.data.examples)
+        commit('GET_BADWORDS', res.data.badWords)
       })
       .catch((err) => {
         console.log(err)

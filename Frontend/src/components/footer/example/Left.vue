@@ -8,7 +8,6 @@
         okText="Xóa luôn"
         cancelText="Thôi"
         @confirm="confirmDelete"
-        @cancel="cancelDelete"
       >
         <a-button class="btn" type="danger"><a-icon type="delete" />Xóa</a-button>
       </a-popconfirm>
@@ -51,9 +50,6 @@ export default {
         .catch((err) => {
           console.log(err)
         })
-    },
-    cancelDelete () {
-      this.$message.warning('cancel Delete')
     }
   }
 }

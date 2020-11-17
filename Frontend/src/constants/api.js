@@ -27,7 +27,12 @@ const API = {
   CREATE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
   UPDATE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
   DELETE_EXAMPLE: `${config.BACKEND_ADDRESS}/api/example`,
-  GET_EXAMPLES: `${config.BACKEND_ADDRESS}/api/example`
+  GET_EXAMPLES: `${config.BACKEND_ADDRESS}/api/example`,
+  // API Bad word
+  CREATE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
+  UPDATE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
+  DELETE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
+  GET_BADWORDS: `${config.BACKEND_ADDRESS}/api/badword`
 }
 
 const SOCKET_EVENT = {

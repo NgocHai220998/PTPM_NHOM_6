@@ -18,9 +18,10 @@
             <a-form-item label="Từ mới:">
               <a-input
                 v-decorator="[
-                  'voca',
+                  'vocabulary',
                   {
                     rules: [{ required: true, message: 'Vui lòng nhập từ mới' }],
+                    initialValue: this.currentWord.vocabulary
                   }
                 ]"
                 placeholder="Vui lòng nhập từ mới"
@@ -31,9 +32,10 @@
             <a-form-item label="Giải thích">
               <a-input
                 v-decorator="[
-                  'mean',
+                  'explain',
                   {
                     rules: [{ required: true, message: 'Vui lòng nhập giải thích' }],
+                    initialValue: this.currentWord.explain
                   }
                 ]"
                 placeholder="Vui lòng nhập giải thích"
@@ -46,7 +48,10 @@
             <a-form-item label="Ví dụ 1:">
               <a-input
                 v-decorator="[
-                  'example_1'
+                  'example1',
+                  {
+                    initialValue: this.currentWord.example1
+                  }
                 ]"
                 placeholder="Vui lòng thêm ví dụ 1"
               />
@@ -56,7 +61,10 @@
             <a-form-item label="Ví dụ 2:">
               <a-input
                 v-decorator="[
-                  'example_2'
+                  'example2',
+                  {
+                    initialValue: this.currentWord.example2
+                  }
                 ]"
                 placeholder="Vui lòng thêm ví dụ 2"
               />
@@ -68,7 +76,10 @@
             <a-form-item label="Ví dụ 3:">
               <a-input
                 v-decorator="[
-                  'example_3'
+                  'example3',
+                  {
+                    initialValue: this.currentWord.example3
+                  }
                 ]"
                 placeholder="Vui lòng thêm ví dụ 3"
               />
@@ -78,7 +89,10 @@
             <a-form-item label="Ví dụ 4:">
               <a-input
                 v-decorator="[
-                  'example_4'
+                  'example4',
+                  {
+                    initialValue: this.currentWord.example4
+                  }
                 ]"
                 placeholder="Vui lòng thêm ví dụ 4"
               />
@@ -90,7 +104,10 @@
             <a-form-item label="Mô tả chi tiết">
               <a-textarea
                 v-decorator="[
-                  'description'
+                  'description',
+                  {
+                    initialValue: this.currentWord.description
+                  }
                 ]"
                 :rows="4"
                 placeholder="Vui lòng thêm chi tiêt giải thích từ ở trên, phần này sẽ hiện khi bạn quên và muốn biết giải thích của nó là gì"
@@ -122,6 +139,10 @@
 </template>
 
 <script>
+
+import { API } from '@/constants/api'
+import { jsonHeader } from '@/utils/fetchTool'
+
 const key = 'updatable'
 export default {
   name: 'EditHome',
@@ -130,17 +151,25 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       placement: 'left',
+      currentWord: {
+        vocabulary: '',
+        explain: '',
+        description: '',
+        example1: '',
+        example2: '',
+        example3: '',
+        example4: ''
+      },
       isHiden: false // disable box while loading
     }
   },
+  props: ['word'],
   methods: {
     showDrawer () {
       this.visible = true
-      this.$message.success('Open drawer')
     },
     onClose () {
       this.visible = false
-      this.$message.success('Close drawer')
     },
     handleEdit (e) {
       e.preventDefault()
@@ -148,17 +177,50 @@ export default {
         if (!error) {
           this.isHiden = true
           this.$message.loading({ content: 'Vui lòng đợi, chúng tôi đang xử lý yêu cầu cho bạn...', key })
-          setTimeout(() => {
-            this.visible = false
-            this.isHiden = false
-            this.$message.success({ content: 'Xong :3', key, duration: 2 })
-          }, 2000)
+          fetch(`${API.UPDATE_WORD}/${this.word._id}`, {
+            headers: jsonHeader.headers,
+            method: 'put',
+            body: JSON.stringify({
+              token: this.user.token,
+              data: {
+                vocabulary: values.vocabulary,
+                explain: values.explain,
+                description: values.description,
+                example1: values.example1,
+                example2: values.example2,
+                example3: values.example3,
+                example4: values.example4
+              }
+            })
+          }).then((response) => response.json())
+            .then((res) => {
+              this.visible = false
+              this.isHiden = false
+              this.$message.success({ content: 'Xong :3', key, duration: 2 })
+              if (res.code === 200) {
+                this.$message.success(res.data.message)
+                this.$emit('editDone')
+              } else {
+                this.$message.error(res.data.message)
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       })
     },
     handleCancel (e) {
       this.$message.warning('handle cancel')
       this.visible = false
+    }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
+  },
+  watch: {
+    word: function () {
+      this.currentWord = this.word
     }
   }
 }

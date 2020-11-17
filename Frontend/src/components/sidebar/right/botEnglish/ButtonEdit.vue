@@ -3,85 +3,45 @@
     <a-button @click="showDrawer" class="btn-EditEnglish background-edit" type="primary"><a-icon type="form" />Sửa</a-button>
     <a-drawer
       title="Thêm Kanji"
-      :height="330"
+      :width="500"
       @close="onClose"
-      :class="isHiden ? 'disabledBox' : ''"
       :visible="visible"
       :placement="placement"
       :bodyStyle="{ paddingBottom: '80px' }"
     >
       <a-form
         :form="form"
-        :class="isHiden ? 'disabledBox' : ''"
         layout="vertical"
         @submit="handleEdit"
       >
         <a-row :gutter="16">
-          <a-col :span="4">
+          <a-col :span="24">
             <a-form-item label="Từ mới:">
               <a-input
                 v-decorator="[
-                  'voca',
+                  'badWord',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập từ mới' }],
+                    initialValue: this.currentBadWord.badWord
                   },
                 ]"
                 placeholder="Xin vui lòng nhập từ mới"
               />
             </a-form-item>
           </a-col>
-          <a-col :span="4">
-            <a-form-item label="Nghĩa:">
-              <a-input
-                v-decorator="[
-                  'mean',
-                  {
-                    rules: [{ required: true, message: 'Xin vui lòng nhập giải thích' }],
-                  },
-                ]"
-                placeholder="Xin vui lòng nhập giải thích"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="4">
-            <a-form-item label="Phiên âm:">
-              <a-input
-                v-decorator="[
-                  'spell'
-                ]"
-                placeholder="Xin vui lòng nhập phiên âm"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Ví dụ 1:">
-              <a-input
-                v-decorator="[
-                  'example_1'
-                ]"
-                placeholder="Xin vui lòng nhập Ví dụ 1"
-              />
-            </a-form-item>
-          </a-col>
         </a-row>
         <a-row :gutter="16">
-          <a-col :span="12">
-            <a-form-item label="Ví dụ 2:">
+          <a-col :span="24">
+            <a-form-item label="Giải thích:">
               <a-input
                 v-decorator="[
-                  'example_2'
+                  'explain',
+                  {
+                    rules: [{ required: true, message: 'Xin vui lòng nhập từ mới' }],
+                    initialValue: this.currentBadWord.explain
+                  }
                 ]"
-                placeholder="Xin vui lòng nhập Ví dụ 2"
-              />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="Ví dụ 3:">
-              <a-input
-                v-decorator="[
-                  'example_3'
-                ]"
-                placeholder="Vui lòng nhập ví dụ 3"
+                placeholder="Xin vui lòng nhập giải thích"
               />
             </a-form-item>
           </a-col>
@@ -100,18 +60,20 @@
           zIndex: 1,
         }"
       >
-        <a-button :class="isHiden ? 'disabledBox' : ''" type="danger" :style="{ marginRight: '8px' }" @click="onClose">
-          <a-icon type="rollback" />Thôi
-        </a-button>
-        <a-button :class="isHiden ? 'disabledBox' : ''" class="background" @click="handleEdit" type="primary"><a-icon type="plus" />Sửa</a-button
-        >
+        <a-spin :spinning="loading" :delay="0" class="spin-button">
+          <a-button type="danger" :style="{ marginRight: '8px' }" @click="onClose">
+            <a-icon type="rollback" />Thôi
+          </a-button>
+          <a-button class="background" @click="handleEdit" type="primary"><a-icon type="form" />Sửa luôn</a-button>
+        </a-spin>
       </div>
     </a-drawer>
   </section>
 </template>
 
 <script>
-const key = 'updatable'
+import { API } from '@/constants/api'
+import { jsonHeader } from '@/utils/fetchTool'
 export default {
   name: 'EditEnglish',
   data () {
@@ -119,10 +81,14 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       loading: false,
-      placement: 'top',
-      isHiden: false // disable box while loading
+      placement: 'right',
+      currentBadWord: {
+        badWord: '',
+        explain: ''
+      }
     }
   },
+  props: ['badWord'],
   methods: {
     showDrawer () {
       this.visible = true
@@ -134,15 +100,37 @@ export default {
       e.preventDefault()
       this.form.validateFields((error, values) => {
         if (!error) {
-          this.isHiden = true
-          this.$message.loading({ content: 'Vui lòng đợi, chúng tôi đang xử lý yêu cầu cho bạn...', key })
-          setTimeout(() => {
-            this.visible = false
-            this.isHiden = false
-            this.$message.success({ content: 'Xong :3', key, duration: 2 })
-          }, 2000)
+          this.loading = true
+          fetch(`${API.UPDATE_BADWORD}/${this.badWord._id}`, {
+            headers: jsonHeader.headers,
+            method: 'put',
+            body: JSON.stringify({
+              data: {
+                badWord: values.badWord,
+                explain: values.explain
+              }
+            })
+          }).then((response) => response.json())
+            .then((res) => {
+              this.visible = false
+              this.loading = false
+              if (res.code === 200) {
+                this.$message.success(res.data.message)
+                this.$emit('editDone')
+              } else {
+                this.$message.error(res.data.message)
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       })
+    }
+  },
+  watch: {
+    badWord: function () {
+      this.currentBadWord = this.badWord
     }
   }
 }

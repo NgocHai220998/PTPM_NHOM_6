@@ -30,6 +30,7 @@ export default {
   methods: {
     confirmLogout () {
       localStorage.removeItem('user')
+      localStorage.removeItem('dataHome')
       window.location.reload()
     }
   }
