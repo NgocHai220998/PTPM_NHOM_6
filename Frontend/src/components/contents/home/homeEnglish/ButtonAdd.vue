@@ -22,7 +22,7 @@
             <a-form-item label="Từ mới:">
               <a-input
                 v-decorator="[
-                  'voca',
+                  'vocabulary',
                   {
                     rules: [{ required: true, message: 'Vui lòng nhập từ mới' }],
                   }
@@ -35,7 +35,7 @@
             <a-form-item label="Giải thích">
               <a-input
                 v-decorator="[
-                  'mean',
+                  'explain',
                   {
                     rules: [{ required: true, message: 'Vui lòng nhập giải thích' }],
                   },
@@ -50,7 +50,7 @@
             <a-form-item label="Ví dụ 1:">
               <a-input
                 v-decorator="[
-                  'example_1'
+                  'example1'
                 ]"
                 placeholder="Vui lòng thêm ví dụ 1"
               />
@@ -60,7 +60,7 @@
             <a-form-item label="Ví dụ 2:">
               <a-input
                 v-decorator="[
-                  'example_2'
+                  'example2'
                 ]"
                 placeholder="Vui lòng thêm ví dụ 2"
               />
@@ -72,7 +72,7 @@
             <a-form-item label="Ví dụ 3:">
               <a-input
                 v-decorator="[
-                  'example_3'
+                  'example3'
                 ]"
                 placeholder="Vui lòng thêm ví dụ 3"
               />
@@ -82,7 +82,7 @@
             <a-form-item label="Ví dụ 4:">
               <a-input
                 v-decorator="[
-                  'example_4'
+                  'example4'
                 ]"
                 placeholder="Vui lòng thêm ví dụ 4"
               />
@@ -126,6 +126,10 @@
 </template>
 
 <script>
+
+import { API } from '@/constants/api'
+import { postMethod, jsonHeader } from '@/utils/fetchTool'
+
 const key = 'updatable'
 export default {
   name: 'AddHome',
@@ -134,17 +138,16 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       placement: 'left',
-      isHiden: false // disable box while loading
+      isHiden: false, // disable box while loading,
+      user: null
     }
   },
   methods: {
     showDrawer () {
       this.visible = true
-      this.$message.success('Open drawer')
     },
     onClose () {
       this.visible = false
-      this.$message.success('Close drawer')
     },
     handleAdd (e) {
       e.preventDefault()
@@ -152,11 +155,36 @@ export default {
         if (!error) {
           this.isHiden = true
           this.$message.loading({ content: 'Vui lòng đợi, chúng tôi đang xử lý yêu cầu cho bạn...', key })
-          setTimeout(() => {
-            this.visible = false
-            this.isHiden = false
-            this.$message.success({ content: 'Xong :3', key, duration: 2 })
-          }, 2000)
+          fetch(API.CREATE_WORD, {
+            headers: jsonHeader.headers,
+            method: postMethod.method,
+            body: JSON.stringify({
+              token: this.user.token,
+              data: {
+                vocabulary: values.vocabulary,
+                explain: values.explain,
+                description: values.description,
+                example1: values.example1,
+                example2: values.example2,
+                example3: values.example3,
+                example4: values.example4
+              }
+            })
+          }).then((response) => response.json())
+            .then((res) => {
+              this.visible = false
+              this.isHiden = false
+              this.$message.success({ content: 'Xong :3', key, duration: 2 })
+              if (res.code === 200) {
+                this.$message.success(res.data.message)
+                this.$emit('addDone')
+              } else {
+                this.$message.error(res.data.message)
+              }
+            })
+            .catch((err) => {
+              console.log(err)
+            })
         }
       })
     },
@@ -164,6 +192,9 @@ export default {
       this.$message.warning('handle cancel')
       this.visible = false
     }
+  },
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
   }
 }
 </script>

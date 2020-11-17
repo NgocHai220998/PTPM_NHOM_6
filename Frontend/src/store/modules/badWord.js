@@ -19,13 +19,12 @@ const mutations = {
 
 const actions = {
   getBadWords ({ commit }, data) {
-    fetch(`${API.GET_BADWORDS}/${data.email}`, {
+    window.fetch(`${API.GET_BADWORDS}/${data.email}`, {
       headers: jsonHeader.headers,
       method: getMethod.method
     }).then((response) => response.json())
       .then((res) => {
         commit('GET_BADWORDS', res.data.badWords)
-        console.log(res)
       })
       .catch((err) => {
         console.log(err)

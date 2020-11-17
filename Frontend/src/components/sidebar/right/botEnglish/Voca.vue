@@ -141,7 +141,7 @@ export default {
       if (this.isAuto) {
         this.interval = setInterval(() => {
           this.run(this.isNext)
-        }, 100)
+        }, 500)
       } else {
         clearInterval(this.interval)
       }

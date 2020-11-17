@@ -25,7 +25,7 @@
                   'example',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập câu mới' }],
-                    initialValue: this.example.example
+                    initialValue: this.currentExample.example
                   },
                 ]"
                 placeholder="Xin vui lòng nhập câu mới"
@@ -41,7 +41,7 @@
                   'explain',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập Giải thích' }],
-                    initialValue: this.example.explain
+                    initialValue: this.currentExample.explain
                   },
                 ]"
                 placeholder="Xin vui lòng nhập giải thích"
@@ -67,7 +67,11 @@ export default {
       visible: false,
       placement: 'top',
       confirmLoading: false,
-      user: null
+      user: null,
+      currentExample: {
+        example: '',
+        explain: ''
+      }
     }
   },
   props: ['example'],
@@ -113,6 +117,11 @@ export default {
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
+  },
+  watch: {
+    example: function () {
+      this.currentExample = this.example
+    }
   }
 }
 </script>
