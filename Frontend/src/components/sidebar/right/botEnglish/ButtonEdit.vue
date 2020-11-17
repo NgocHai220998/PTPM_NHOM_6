@@ -22,7 +22,7 @@
                   'badWord',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập từ mới' }],
-                    initialValue: this.badWord.badWord
+                    initialValue: this.currentBadWord.badWord
                   },
                 ]"
                 placeholder="Xin vui lòng nhập từ mới"
@@ -38,7 +38,7 @@
                   'explain',
                   {
                     rules: [{ required: true, message: 'Xin vui lòng nhập từ mới' }],
-                    initialValue: this.badWord.explain
+                    initialValue: this.currentBadWord.explain
                   }
                 ]"
                 placeholder="Xin vui lòng nhập giải thích"
@@ -81,7 +81,11 @@ export default {
       form: this.$form.createForm(this),
       visible: false,
       loading: false,
-      placement: 'right'
+      placement: 'right',
+      currentBadWord: {
+        badWord: '',
+        explain: ''
+      }
     }
   },
   props: ['badWord'],
@@ -122,6 +126,11 @@ export default {
             })
         }
       })
+    }
+  },
+  watch: {
+    badWord: function () {
+      this.currentBadWord = this.badWord
     }
   }
 }

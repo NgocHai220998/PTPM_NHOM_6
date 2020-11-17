@@ -119,7 +119,7 @@ export default {
       if (this.isAuto) {
         this.interval = setInterval(() => {
           this.run(this.isNext)
-        }, 100)
+        }, 500)
       } else {
         clearInterval(this.interval)
       }
@@ -148,6 +148,7 @@ export default {
             }
           }
           .text-mean {
+            position: relative;
             span {
               font-size: 18px;
               color: white;
@@ -155,7 +156,10 @@ export default {
               max-width: 550px;
             }
             .btn-hiden {
-                height: 20px;
+              top: 5px;
+              height: 20px;
+              position: absolute;
+              right: 0;
             }
           }
           .commingsoon {
