@@ -132,9 +132,11 @@ export default {
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
-    this.getBadWords({
-      email: this.user.email
-    })
+    if (this.user) {
+      this.getBadWords({
+        email: this.user.email
+      })
+    }
   },
   watch: {
     isAuto: function () {

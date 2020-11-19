@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import io from 'socket.io-client'
 
 export default {
   data () {
@@ -19,9 +18,10 @@ export default {
         name: 'GameLanguage',
         content: 'Chào mừng bạn đến với GameLanguage, chúc bạn có một trải nghiệm vui vẻ!'
       }],
-      socket: io.connect('http://localhost:4000')
+      user: null
     }
   },
+  props: ['socket'],
   methods: {
     scrollToBottom () {
       this.$nextTick(() => {
@@ -37,7 +37,10 @@ export default {
     }
   },
   beforeMount () {
-    this.connectSocket()
+    this.user = JSON.parse(localStorage.getItem('user'))
+    if (this.user) {
+      this.connectSocket()
+    }
   }
 }
 </script>

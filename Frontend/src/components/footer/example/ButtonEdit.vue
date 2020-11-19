@@ -67,7 +67,6 @@ export default {
       visible: false,
       placement: 'top',
       confirmLoading: false,
-      user: null,
       currentExample: {
         example: '',
         explain: ''
@@ -114,9 +113,6 @@ export default {
       this.$message.warning('handle cancel')
       this.visible = false
     }
-  },
-  beforeMount () {
-    this.user = JSON.parse(localStorage.getItem('user'))
   },
   watch: {
     example: function () {

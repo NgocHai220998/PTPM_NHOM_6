@@ -41,23 +41,29 @@
       <div class="bot">
         <!-- Answer by entering the answer -->
         <div v-show="isInput" class="input-text">
-          <a-input-search @search="handleAnswerInput" @pressEnter="handleAnswerInput" v-model="answerInput" placeholder="Nhập đáp án ở đây" size="large">
-            <a-button class="background" slot="enterButton"><a-icon type="enter" /></a-button>
-          </a-input-search>
+          <a-spin :spinning="isLoadingInput" :delay="0" class="spin-button">
+            <a-input-search @search="handleAnswerInput" @pressEnter="handleAnswerInput" v-model="answerInput" placeholder="Nhập đáp án ở đây" size="large">
+              <a-button class="background" slot="enterButton"><a-icon type="enter" /></a-button>
+            </a-input-search>
+          </a-spin>
         </div>
         <!-- Answer by choosing multiple choice answers -->
-        <div v-show="isChoice" class="choice-answer">
-          <div class="container">
-            <div v-for="(wordAnswer, index) in getRandomAnswerChoice()" :key="index" @click="handleChoiceAnswer(wordAnswer)" class="item background">
-              <span>{{ wordAnswer.vocabulary }}</span>
+        <a-spin :spinning="isLoadingAnswer" :delay="0" class="spin-button">
+          <div v-show="isChoice" class="choice-answer">
+            <div class="container">
+              <div v-for="(wordAnswer, index) in getRandomAnswerChoice()" :key="index" @click="handleChoiceAnswer(wordAnswer)" class="item background">
+                <span>{{ wordAnswer.vocabulary }}</span>
+              </div>
             </div>
           </div>
-        </div>
+        </a-spin>
         <!-- Answer by arranging the words in the sentence -->
         <div v-show="isChoiceChar" class="choice-char">
-          <a-input-search @search="handleAnswerInput" @pressEnter="handleAnswerInput" v-model="answerInput" placeholder="Nhập đáp án ở đây" size="large">
-            <a-button class="background" slot="enterButton"><a-icon type="enter" /></a-button>
-          </a-input-search>
+          <a-spin :spinning="isLoadingInput" :delay="0" class="spin-button">
+            <a-input-search @search="handleAnswerInput" @pressEnter="handleAnswerInput" v-model="answerInput" placeholder="Nhập đáp án ở đây" size="large">
+              <a-button class="background" slot="enterButton"><a-icon type="enter" /></a-button>
+            </a-input-search>
+          </a-spin>
           <div class="arr-char">
             <div v-for="(char, index) in currentAnswer" :key="index" @click="handleChar(char)" class="char background">
               <span>{{ char }}</span>
@@ -118,9 +124,12 @@ export default {
         vocabulary: 'Tiếng Nhật'
       }, {
         vocabulary: 'Tiếng Ý'
-      }]
+      }],
+      isLoadingInput: false,
+      isLoadingAnswer: false
     }
   },
+  props: ['socket'],
   computed: {
     ...mapGetters(['words'])
   },
@@ -133,21 +142,29 @@ export default {
     handleAnswerInput () {
       if (this.answerInput !== '') {
         if (!this.checkAnswer()) {
-          this.openNotificationWithIcon('error', 'Sai sai rồi :((')
+          this.openNotificationWithIcon('error', 'Sai sai rồi: -1 円')
+          this.socket.emit('clientSendWord', {
+            status: 'error',
+            token: this.user.token
+          })
         }
       } else {
         this.$message.error('Đáp án không được bỏ trống')
       }
     },
     handleChoiceAnswer (choiceAnswer) {
-      this.answerInput = choiceAnswer.vocabulary
-      if (this.answerInput !== '') {
-        if (!this.checkAnswer()) {
-          this.openNotificationWithIcon('error', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
-        } else {
-          this.openNotificationWithIcon('success', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
+      this.isLoadingAnswer = true
+      setTimeout(() => {
+        if (choiceAnswer.vocabulary !== '') {
+          if (!(choiceAnswer.vocabulary.toUpperCase() === this.word.vocabulary.toUpperCase())) {
+            this.openNotificationWithIcon('error', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
+          } else {
+            this.openNotificationWithIcon('success', `Note: ${choiceAnswer.vocabulary} : ${choiceAnswer.explain}`)
+            this.run(true)
+          }
         }
-      }
+        this.isLoadingAnswer = false
+      }, 200)
     },
     handleChar (char) {
       this.answerInput += char
@@ -204,8 +221,17 @@ export default {
     },
     checkAnswer () {
       if (this.answerInput.toUpperCase() === this.word.vocabulary.toUpperCase()) {
-        this.run(true)
-        return true
+        this.isLoadingInput = true
+        this.socket.emit('clientSendWord', {
+          status: 'success',
+          token: this.user.token
+        })
+        this.$message.success('+1 Kinh nghiệm, +1 円')
+        setTimeout(() => {
+          this.isLoadingInput = false
+          this.run(true)
+          return true
+        }, 300)
       }
       return false
     },
@@ -273,14 +299,17 @@ export default {
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
-    this.getWords({
-      email: this.user.email
-    })
-    let dataHome = JSON.parse(localStorage.getItem('dataHome'))
-    console.log(dataHome)
-    this.isAuto = dataHome.isAuto
-    this.index = dataHome.index
-    this.isRandom = dataHome.isRandom
+    if (this.user) {
+      this.getWords({
+        email: this.user.email
+      })
+      let dataHome = JSON.parse(localStorage.getItem('dataHome'))
+      if (dataHome) {
+        this.isAuto = dataHome.isAuto
+        this.index = dataHome.index
+        this.isRandom = dataHome.isRandom
+      }
+    }
   },
   watch: {
     isAuto: function () {

@@ -18,6 +18,8 @@ const API = {
   GET_CODE: `${config.BACKEND_ADDRESS}/api/users/send-email-code`,
   SEND_EMAIL_REGISTER: `${config.BACKEND_ADDRESS}/api/users/send-email-register`,
   CREATE_MAIN: `${config.BACKEND_ADDRESS}/api/main`,
+  UPDATE_POSITION: `${config.BACKEND_ADDRESS}/api/users/position`,
+  GET_USER_BY_EMAIL: `${config.BACKEND_ADDRESS}/api/users`,
   // API word
   CREATE_WORD: `${config.BACKEND_ADDRESS}/api/word`,
   UPDATE_WORD: `${config.BACKEND_ADDRESS}/api/word`,
@@ -32,11 +34,14 @@ const API = {
   CREATE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
   UPDATE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
   DELETE_BADWORD: `${config.BACKEND_ADDRESS}/api/badword`,
-  GET_BADWORDS: `${config.BACKEND_ADDRESS}/api/badword`
+  GET_BADWORDS: `${config.BACKEND_ADDRESS}/api/badword`,
+  // RANK
+  GET_RANKS: `${config.BACKEND_ADDRESS}/api/rank`
 }
 
 const SOCKET_EVENT = {
-  socket: 'socket'
+  socket: 'socket',
+  urlSocket: 'http://localhost:4000'
 }
 
 export {

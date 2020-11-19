@@ -1,8 +1,8 @@
 <template>
   <section class="sidebar-left">
-    <Info class="sidebar-left-info" />
+    <Info :socket="socket" class="sidebar-left-info" />
     <Feature class="sidebar-left-feature" />
-    <ChatBox class="sidebar-left-chatbox" />
+    <ChatBox :socket="socket" class="sidebar-left-chatbox" />
   </section>
 </template>
 
@@ -18,6 +18,7 @@ export default {
     return {
     }
   },
+  props: ['socket'],
   components: {
     Info,
     Feature,

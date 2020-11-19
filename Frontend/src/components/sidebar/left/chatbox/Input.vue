@@ -39,7 +39,6 @@
 </template>
 <script>
 import emoji from '@/constants/emoji.js'
-import io from 'socket.io-client'
 
 export default {
   data () {
@@ -48,10 +47,10 @@ export default {
       emojis: emoji,
       visible: false,
       number: 1,
-      socket: io.connect('http://localhost:4000'),
       user: null
     }
   },
+  props: ['socket'],
   methods: {
     sendMessage () {
       if (this.message.trim() === '') {
