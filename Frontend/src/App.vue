@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <sidebar-left id="app-left" v-show="!this.isLogin()"></sidebar-left>
+    <sidebar-left :socket="socket" id="app-left" v-show="!this.isLogin()"></sidebar-left>
     <section id="app-center">
       <learn-header id="app-center-top" v-show="!this.isLogin()"/>
-      <router-view id="app-center-view"/>
+      <router-view :socket="socket" id="app-center-view"/>
       <learn-footer id="app-center-bot" v-show="!this.isLogin()"/>
     </section>
-    <sidebar-right id="app-right" v-show="!this.isLogin()"></sidebar-right>
+    <sidebar-right :socket="socket" id="app-right" v-show="!this.isLogin()"></sidebar-right>
   </div>
 </template>
 
@@ -15,13 +15,18 @@ import LearnHeader from '@/components/header/Header'
 import LearnFooter from '@/components/footer/Footer'
 import SidebarLeft from '@/components/sidebar/left/SidebarLeft'
 import SidebarRight from '@/components/sidebar/right/SidebarRight'
+import io from 'socket.io-client'
+import { SOCKET_EVENT } from '@/constants/api'
+
 import '@/App.scss'
 
 export default {
   name: 'App',
   data () {
     return {
-      currentRouter: ''
+      currentRouter: '',
+      user: null,
+      socket: null
     }
   },
   components: {
@@ -30,16 +35,23 @@ export default {
     SidebarLeft,
     SidebarRight
   },
-  beforeMount () {
-    this.currentRouter = this.$router.history.current.name
-    // console.log(this.$router)
-  },
   methods: {
     /**
      * Check that the user is logged in
      */
     isLogin () {
       return this.currentRouter === 'Login' || this.currentRouter === 'Register' || this.currentRouter === 'ForgotPassword'
+    }
+  },
+  beforeMount () {
+    this.currentRouter = this.$router.history.current.name
+    this.user = JSON.parse(localStorage.getItem('user'))
+    if (this.user) {
+      this.socket = io.connect(SOCKET_EVENT.urlSocket, {
+        query: {
+          name: this.user.email
+        }
+      })
     }
   }
 }

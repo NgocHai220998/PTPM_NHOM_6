@@ -108,6 +108,7 @@ import { postMethod, jsonHeader } from '@/utils/fetchTool'
 import userService from '@/utils/userServices'
 import { hash256 } from '@/utils/common'
 import { API } from '@/constants/api'
+import dataFg from '@/constants/dataFigure'
 
 export default {
   name: 'LoginComponent',
@@ -121,10 +122,7 @@ export default {
       confirmLoading: false,
       userName: '',
       isCreateMain: false,
-      user: null,
-      attack: null,
-      shoot: null,
-      ninja: null
+      user: null
     }
   },
   methods: {
@@ -189,11 +187,11 @@ export default {
       } else {
         let kind = null
         if (this.valueMain === 'attack') {
-          kind = this.attack
+          kind = dataFg.attack
         } else if (this.valueMain === 'shoot') {
-          kind = this.shoot
+          kind = dataFg.shoot
         } else {
-          kind = this.ninja
+          kind = dataFg.ninja
         }
         fetch(`${API.CREATE_MAIN}/${this.user.email}`, {
           headers: jsonHeader.headers,
@@ -242,42 +240,6 @@ export default {
     localStorage.setItem('preRouterName', 'Login')
     if (isLogin) {
       this.$router.push({ name: 'HomeScreen' })
-    }
-    this.attack = {
-      kind: 'attack',
-      martialArt: 70,
-      magic: 5,
-      skill: 70,
-      avoid: 5,
-      propUp: 15,
-      exactly: 5,
-      critical: 5,
-      position: 2,
-      srcImage: '/static/images/attack.png'
-    }
-    this.shoot = {
-      kind: 'shoot',
-      martialArt: 100,
-      magic: 5,
-      skill: 80,
-      avoid: 5,
-      propUp: 2,
-      exactly: 5,
-      critical: 10,
-      position: 2,
-      srcImage: '/static/images/shoot.png'
-    }
-    this.ninja = {
-      kind: 'ninja',
-      martialArt: 80,
-      magic: 5,
-      skill: 80,
-      avoid: 15,
-      propUp: 2,
-      exactly: 5,
-      critical: 5,
-      position: 2,
-      srcImage: '/static/images/ninja.png'
     }
   }
 }

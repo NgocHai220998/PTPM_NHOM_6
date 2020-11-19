@@ -1,16 +1,12 @@
 <template>
   <section class="function">
-    <Fight />
-    <Fight />
-    <Fight />
-    <Fight />
-    <Fight />
+    <Rank />
   </section>
 </template>
 
 <script>
 
-import Fight from './Fight'
+import Rank from './Rank'
 
 export default {
   name: 'FunctionHeader',
@@ -19,7 +15,7 @@ export default {
     }
   },
   components: {
-    Fight
+    Rank
   }
 }
 </script>

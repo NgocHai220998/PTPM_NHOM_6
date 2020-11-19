@@ -35,11 +35,22 @@ export default [
         this.number++
       }, 100)
     },
-    stop: function () {
-      setTimeout(() => {
-        this.currentStatus.x = this.idle.x
-        this.currentStatus.y = this.idle.y
-      }, 1000)
+    stop: function (status) {
+      if (status === 'dead') {
+        // this.currentStatus.x = this.dead.x
+        // this.currentStatus.y = this.dead.y
+        setTimeout(() => {
+          clearInterval(this.toDead)
+        }, 950)
+      } else {
+        setTimeout(() => {
+          this.currentStatus.x = this.idle.x
+          this.currentStatus.y = this.idle.y
+        }, 1000)
+      }
+    },
+    clear: function () {
+      clearInterval(this.toDead)
     }
   }, {
     number: 1,
@@ -77,11 +88,20 @@ export default [
         this.number++
       }, 100)
     },
-    stop: function () {
-      setTimeout(() => {
-        this.currentStatus.x = this.idle.x
-        this.currentStatus.y = this.idle.y
-      }, 1000)
+    stop: function (status) {
+      if (status === 'dead') {
+        setTimeout(() => {
+          clearInterval(this.toDead)
+        }, 950)
+      } else {
+        setTimeout(() => {
+          this.currentStatus.x = this.idle.x
+          this.currentStatus.y = this.idle.y
+        }, 1000)
+      }
+    },
+    clear: function () {
+      clearInterval(this.toDead)
     }
   }, {
     number: 1,
@@ -119,11 +139,20 @@ export default [
         this.number++
       }, 100)
     },
-    stop: function () {
-      setTimeout(() => {
-        this.currentStatus.x = this.idle.x
-        this.currentStatus.y = this.idle.y
-      }, 1000)
+    stop: function (status) {
+      if (status === 'dead') {
+        setTimeout(() => {
+          clearInterval(this.toDead)
+        }, 950)
+      } else {
+        setTimeout(() => {
+          this.currentStatus.x = this.idle.x
+          this.currentStatus.y = this.idle.y
+        }, 1000)
+      }
+    },
+    clear: function () {
+      clearInterval(this.toDead)
     }
   }, {
     number: 1,
@@ -161,11 +190,20 @@ export default [
         this.number++
       }, 100)
     },
-    stop: function () {
-      setTimeout(() => {
-        this.currentStatus.x = this.idle.x
-        this.currentStatus.y = this.idle.y
-      }, 1000)
+    stop: function (status) {
+      if (status === 'dead') {
+        setTimeout(() => {
+          clearInterval(this.toDead)
+        }, 950)
+      } else {
+        setTimeout(() => {
+          this.currentStatus.x = this.idle.x
+          this.currentStatus.y = this.idle.y
+        }, 1000)
+      }
+    },
+    clear: function () {
+      clearInterval(this.toDead)
     }
   }, {
     number: 1,
@@ -203,11 +241,20 @@ export default [
         this.number++
       }, 100)
     },
-    stop: function () {
-      setTimeout(() => {
-        this.currentStatus.x = this.idle.x
-        this.currentStatus.y = this.idle.y
-      }, 1000)
+    stop: function (status) {
+      if (status === 'dead') {
+        setTimeout(() => {
+          clearInterval(this.toDead)
+        }, 950)
+      } else {
+        setTimeout(() => {
+          this.currentStatus.x = this.idle.x
+          this.currentStatus.y = this.idle.y
+        }, 1000)
+      }
+    },
+    clear: function () {
+      clearInterval(this.toDead)
     }
   }
 ]

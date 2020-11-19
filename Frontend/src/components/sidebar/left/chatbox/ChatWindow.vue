@@ -1,8 +1,8 @@
 <template>
   <section class="chat-window">
     <Header @isShowChatbox="isShowChatbox = $event"/>
-    <Content v-show="isShowChatbox" />
-    <Input />
+    <Content :socket="socket" v-show="isShowChatbox" />
+    <Input :socket="socket" />
   </section>
 </template>
 <script>
@@ -18,6 +18,7 @@ export default {
       isShowChatbox: true
     }
   },
+  props: ['socket'],
   components: {
     Header,
     Content,

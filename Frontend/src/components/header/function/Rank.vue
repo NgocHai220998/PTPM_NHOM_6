@@ -1,12 +1,12 @@
 <template>
-  <section class="Fight background">
-    <router-link :to="{ name: 'FightScreen' }">
-      <div class="fight-index effect-mission">
+  <section class="Rank background">
+    <router-link :to="{ name: 'RankScreen' }">
+      <div class="rank-index effect-mission">
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img height="100" width="100" src="https://ngochai220998.github.io/mywebsite/Attack%20(1).png" alt="null">
+        <img height="100" width="100" src="/static/images/shoot.png" alt="null">
       </div>
     </router-link>
   </section>
@@ -15,7 +15,7 @@
 <script>
 
 export default {
-  name: 'FightHeader',
+  name: 'RankHeader',
   data () {
     return {
     }
@@ -24,7 +24,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .Fight {
+  .Rank {
     width: 100px;
     height: 100px;
     margin: 10px 20px;

@@ -7,6 +7,7 @@ import ForgotPassword from '@/components/login/ForgotPassword'
 import HomeScreen from '@/screens/HomeScreen'
 import FightScreen from '@/screens/FightScreen'
 import PositionScreen from '@/screens/PositionScreen'
+import RankScreen from '@/screens/RankScreen'
 
 Vue.use(Router)
 
@@ -35,7 +36,7 @@ const router = new Router({
       component: ForgotPassword
     },
     {
-      path: '/fight',
+      path: '/fight/:email/:emailReverse',
       name: 'FightScreen',
       component: FightScreen,
       meta: { auth: true }
@@ -44,6 +45,12 @@ const router = new Router({
       path: '/position',
       name: 'PositionScreen',
       component: PositionScreen,
+      meta: { auth: true }
+    },
+    {
+      path: '/rank',
+      name: 'RankScreen',
+      component: RankScreen,
       meta: { auth: true }
     }
   ]

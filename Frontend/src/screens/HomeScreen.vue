@@ -1,5 +1,5 @@
 <template>
-  <HomeComponent />
+  <HomeComponent :socket="socket" />
 </template>
 
 <script>
@@ -12,6 +12,7 @@ export default {
     return {
     }
   },
+  props: ['socket'],
   components: {
     HomeComponent
   }

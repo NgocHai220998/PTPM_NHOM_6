@@ -107,9 +107,11 @@ export default {
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
-    this.getExamples({
-      email: this.user.email
-    })
+    if (this.user) {
+      this.getExamples({
+        email: this.user.email
+      })
+    }
   },
   components: {
     Left

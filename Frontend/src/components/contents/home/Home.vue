@@ -1,6 +1,6 @@
 <template>
   <section class="home-page">
-    <HomeEnglish />
+    <HomeEnglish :socket="socket" />
   </section>
 </template>
 <script>
@@ -13,6 +13,7 @@ export default {
     return {
     }
   },
+  props: ['socket'],
   components: {
     HomeEnglish
   },

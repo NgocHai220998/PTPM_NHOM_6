@@ -2,64 +2,244 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img width="100" height="100" class="index background" :src="user.main.srcImage" />
+        <img width="100" height="100" class="index background" :src="user ? user.main.srcImage : ''" />
         <div class="avatar-level background">
           <div>
-            <span title="Cấp độ">146</span>
+            <a-tooltip placement="topLeft">
+              <template slot="title">
+                <span>Cấp độ</span>
+              </template>
+              <span>{{ user ? user.profile.level : '' }}</span>
+            </a-tooltip>
           </div>
         </div>
         <div class="avatar-top background">
           <div>
-            <span title="Thứ hạng">2</span>
+            <a-tooltip placement="topLeft">
+              <template slot="title">
+                <span>Xếp hạng</span>
+              </template>
+              <span>{{ user ? user.profile.rank : '' }}</span>
+            </a-tooltip>
           </div>
         </div>
       </div>
       <div class="right">
         <div class="right-name">
           <div class="background">
-            <span title="Tên nhân vật">{{ user.main.userName }}</span>
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>Tên nhân vật</span>
+              </template>
+              <span>{{ user ? user.main.userName : '' }}</span>
+            </a-tooltip>
           </div>
         </div>
         <div class="right-money">
           <div class="background">
-            <span title="Tiền yên">2022200 円</span>
-            <a-icon @click="clickAchievement" class="achievement" title="Thành tựu" type="bg-colors"/>
+            <a-tooltip placement="top">
+              <template slot="title">
+                <span>{{ user ? user.profile.money : '' }} Yên</span>
+              </template>
+              <span>{{ user ? user.profile.money : '' }} 円</span>
+            </a-tooltip>
+            <a-tooltip placement="topLeft">
+              <template slot="title">
+                <span>{{ user ? user.profile.famePoint : '' }} Danh vọng</span>
+              </template>
+              <a-icon @click="clickFamePoint" class="fame-point" type="bg-colors"/>
+            </a-tooltip>
           </div>
         </div>
         <div class="right-point">
           <div class="background">
-            <span title="Kim cương"><a-icon type="radar-chart" /> 1998 Điểm</span>
+            <a-tooltip placement="topLeft">
+              <template slot="title">
+                <span>{{ user ? user.profile.diamond : '' }} Kim Cương</span>
+              </template>
+              <span><a-icon type="radar-chart" /> {{ user ? user.profile.diamond : '' }} KC</span>
+            </a-tooltip>
           </div>
         </div>
       </div>
-      <div title="Trận hình" class="position">
+      <div class="position">
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <router-link class="position-icon" :to="{ name: 'PositionScreen' }">
-          <a-icon class="position-icon" type="border-left" />
+          <a-tooltip placement="top">
+            <template slot="title">
+              <span>Trận hình</span>
+            </template>
+            <a-icon class="position-icon" type="border-left" />
+          </a-tooltip>
         </router-link>
       </div>
+      <a-tooltip placement="topLeft">
+        <template slot="title">
+          <span>Kinh nghiệm: {{ `${user.profile.exp}/${user.profile.expNextLevel}` }}</span>
+        </template>
+        <div class="exp">
+          <div :style="{ width: (user ? parseInt(user.profile.exp/user.profile.expNextLevel * 100) : 0) + '%'}" class="index background"></div>
+        </div>
+      </a-tooltip>
     </div>
   </section>
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   name: 'InfoComponent',
   data () {
     return {
-      user: null
+      user: null,
+      exp: null
     }
   },
+  props: ['socket'],
+  computed: {
+    ...mapGetters(['userByEmail'])
+  },
   methods: {
-    clickAchievement () {
-      this.$message.success('clicked Achievement')
+    ...mapActions(['getUserByEmail']),
+    clickFamePoint () {
+      this.$message.success('clicked FamePoint')
+    },
+    connectSocket () {
+      this.serverUpdateProfile()
+      this.serverUpdateFigure()
+    },
+    serverUpdateProfile () {
+      this.socket.on('serverUpdateProfile', async (data) => {
+        if (data.code === 200) {
+          await this.getUserByEmail({
+            email: this.user.email
+          })
+          setTimeout(() => {
+            localStorage.setItem('user', JSON.stringify({
+              ...this.user,
+              ...this.userByEmail
+            }))
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.exp = this.user.profile.exp
+          }, 0)
+        } else {
+          this.$message.error('Lỗi rồi đại ca ơi!')
+        }
+      })
+    },
+    serverUpdateFigure () {
+      this.socket.on('serverUpdateFigure', async (data) => {
+        if (data.code === 200) {
+          await this.getUserByEmail({
+            email: this.user.email
+          })
+          setTimeout(() => {
+            localStorage.setItem('user', JSON.stringify({
+              ...this.user,
+              ...this.userByEmail
+            }))
+            this.user = JSON.parse(localStorage.getItem('user'))
+            this.exp = this.user.profile.exp
+          }, 1000)
+        } else {
+          this.$message.error('Lỗi rồi đại ca ơi!')
+        }
+      })
     }
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
+    if (this.user) {
+      this.connectSocket()
+      this.getUserByEmail({
+        email: this.user.email
+      })
+    }
+  },
+  watch: {
+    exp: function () {
+      let main = {}
+      if (this.exp >= this.user.profile.expNextLevel) {
+        switch (this.user.main.kind) {
+          case 'shoot':
+            main.martialArt = this.user.main.martialArt + 9
+            main.avoid = this.user.main.avoid + 1
+            main.propUp = this.user.main.propUp + 1
+            main.critical = this.user.main.critical + 3
+            main.hp = this.user.main.hp + 30
+            main.armor = this.user.main.armor + 4
+            break
+          case 'attack':
+            main.martialArt = this.user.main.martialArt + 5
+            main.avoid = this.user.main.avoid + 1
+            main.propUp = this.user.main.propUp + 3
+            main.critical = this.user.main.critical + 1
+            main.hp = this.user.main.hp + 45
+            main.armor = this.user.main.armor + 9
+            break
+          case 'ninja':
+            main.martialArt = this.user.main.martialArt + 7
+            main.avoid = this.user.main.avoid + 3
+            main.propUp = this.user.main.propUp + 1
+            main.critical = this.user.main.critical + 1
+            main.hp = this.user.main.hp + 37
+            main.armor = this.user.main.armor + 6
+            break
+          default:
+            break
+        }
+        if (this.user.pets) {
+          for (let i = 0; i < this.user.pets.length; ++i) {
+            let dataPet = {}
+            switch (this.user.pets[i].kind) {
+              case 'zombie':
+                dataPet.martialArt = this.user.main.martialArt + 12
+                dataPet.avoid = this.user.main.avoid + 1
+                dataPet.propUp = this.user.main.propUp + 1
+                dataPet.critical = this.user.main.critical + 1
+                dataPet.hp = this.user.main.hp + 35
+                dataPet.armor = this.user.main.armor + 5
+                break
+              case 'robot':
+                dataPet.martialArt = this.user.main.martialArt + 5
+                dataPet.avoid = this.user.main.avoid + 1
+                dataPet.propUp = this.user.main.propUp + 1
+                dataPet.critical = this.user.main.critical + 1
+                dataPet.hp = this.user.main.hp + 40
+                dataPet.armor = this.user.main.armor + 12
+                break
+              default:
+                break
+            }
+            this.user.pets[i] = {
+              ...this.user.pets[i],
+              ...dataPet
+            }
+          }
+        }
+        this.socket.emit('clientLevelUp', {
+          token: this.user.token,
+          main,
+          pets: this.user.pets,
+          profile: {
+            famePoint: this.user.profile.famePoint + 10,
+            money: this.user.profile.money + 100,
+            exp: 0,
+            level: this.user.profile.level + 1,
+            technicalPoint: {
+              ...this.user.profile.technicalPoint,
+              index: this.user.profile.technicalPoint.index + 3
+            },
+            expNextLevel: parseInt(this.user.profile.expNextLevel * 1.333)
+          }
+        })
+      }
+    }
   }
 }
 </script>
@@ -158,7 +338,7 @@ export default {
             white-space: nowrap;
             margin-left: 5px;
           }
-          .achievement {
+          .fame-point {
             position: absolute;
             color: white;
             top: 0px;
@@ -179,6 +359,19 @@ export default {
         &-icon {
           font-size: 25px;
           color: white;
+        }
+      }
+      .exp {
+        cursor: pointer;
+        position: absolute;
+        height: 5px;
+        width: 100%;
+        background-color: white;
+        border-radius: 5px;
+        bottom: -40px;
+        .index {
+          height: 100%;
+          border-radius: 5px;
         }
       }
     }
