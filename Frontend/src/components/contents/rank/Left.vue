@@ -48,13 +48,29 @@ export default {
       user: null
     }
   },
+  props: ['socket'],
   methods: {
     hide () {
       this.visible = false
+    },
+    connectSocket () {
+      this.socket.on('serverUpdateProfile', (data) => {
+        if (data.code === 200) {
+          this.user = {
+            ...this.user,
+            ...data.user
+          }
+        } else {
+          this.$message.error('Ui có biến rồi đại ca ơi 😡😡')
+        }
+      })
     }
   },
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
+    if (this.user) {
+      this.connectSocket()
+    }
   }
 }
 </script>

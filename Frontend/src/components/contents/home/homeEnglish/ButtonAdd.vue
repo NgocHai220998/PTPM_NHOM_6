@@ -142,6 +142,7 @@ export default {
       user: null
     }
   },
+  props: ['socket'],
   methods: {
     showDrawer () {
       this.visible = true
@@ -174,9 +175,9 @@ export default {
             .then((res) => {
               this.visible = false
               this.isHiden = false
-              this.$message.success({ content: 'Xong :3', key, duration: 2 })
               if (res.code === 200) {
-                this.$message.success(res.data.message)
+                this.$message.success({ content: 'Thêm từ mới thành công :3', key, duration: 2 })
+                this.clientCreateWord()
                 this.$emit('addDone')
               } else {
                 this.$message.error(res.data.message)
@@ -191,6 +192,11 @@ export default {
     handleCancel (e) {
       this.$message.warning('handle cancel')
       this.visible = false
+    },
+    clientCreateWord () {
+      this.socket.emit('clientCreateWord', {
+        token: this.user.token
+      })
     }
   },
   beforeMount () {

@@ -1,6 +1,6 @@
 <template>
   <footer class="footer-example">
-    <Left @deleteDone="deleteDone" @editDone="editDone" @addDone="addDone" :example="example" class="footer-example-left" />
+    <Left :socket="socket" @deleteDone="deleteDone" @editDone="editDone" @addDone="addDone" :example="example" class="footer-example-left" />
     <section class="center">
       <div v-if="example.example !== ''">
           <div class="text-example">
@@ -55,6 +55,7 @@ export default {
       isNext: true
     }
   },
+  props: ['socket'],
   computed: {
     ...mapGetters(['examples'])
   },

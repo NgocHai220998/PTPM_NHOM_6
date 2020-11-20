@@ -72,6 +72,7 @@ export default {
       user: null
     }
   },
+  props: ['socket'],
   methods: {
     showModal () {
       this.visible = true
@@ -97,6 +98,7 @@ export default {
               this.confirmLoading = false
               if (res.code === 200) {
                 this.$message.success(res.data.message)
+                this.clientCreateSentence()
                 this.$emit('addDone')
               } else {
                 this.$message.error(res.data.message)
@@ -109,8 +111,12 @@ export default {
       })
     },
     handleCancel (e) {
-      this.$message.warning('handle cancel')
       this.visible = false
+    },
+    clientCreateSentence () {
+      this.socket.emit('clientCreateSentence', {
+        token: this.user.token
+      })
     }
   },
   beforeMount () {

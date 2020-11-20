@@ -2,25 +2,15 @@
   <section class="feature">
     <div class="feature-1">
       <router-link :to="{ name: '' }" class="link">
-        Nguyên Linh Thạch
+        Đi độ kiếp
       </router-link>
     </div>
     <div class="feature-2">
-      <router-link :to="{ name: '' }" class="link">
-        Thương nhân thần bí(Mới)
+      <router-link :to="{ name: 'RecruitScreen' }" class="link">
+        Thuyết phục đồng đội
       </router-link>
     </div>
     <TechnicalPoint :socket="socket" :user="user" class="feature-3" />
-    <div class="feature-4">
-      <router-link :to="{ name: '' }" class="link">
-        Đến phong ấn ma vương
-      </router-link>
-    </div>
-    <div class="feature-5">
-      <router-link :to="{ name: '' }" class="link">
-        Dược viên(0/3)
-      </router-link>
-    </div>
   </section>
 </template>
 

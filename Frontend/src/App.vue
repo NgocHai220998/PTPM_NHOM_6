@@ -4,7 +4,7 @@
     <section id="app-center">
       <learn-header id="app-center-top" v-show="!this.isLogin()"/>
       <router-view :socket="socket" id="app-center-view"/>
-      <learn-footer id="app-center-bot" v-show="!this.isLogin()"/>
+      <learn-footer :socket="socket" id="app-center-bot" v-show="!this.isLogin()"/>
     </section>
     <sidebar-right :socket="socket" id="app-right" v-show="!this.isLogin()"></sidebar-right>
   </div>

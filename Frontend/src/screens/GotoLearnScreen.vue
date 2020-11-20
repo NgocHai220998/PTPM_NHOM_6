@@ -1,20 +1,20 @@
 <template>
-  <FightComponent :socket="socket" />
+  <GotoLearnComponent :socket="socket" />
 </template>
 
 <script>
 
-import FightComponent from '../components/contents/fight/Fight'
+import GotoLearnComponent from '../components/contents/gotoLearn/GotoLearn'
 
 export default {
-  name: 'FightScreen',
+  name: 'GotoLearnScreen',
   data () {
     return {
     }
   },
   props: ['socket'],
   components: {
-    FightComponent
+    GotoLearnComponent
   }
 }
 </script>

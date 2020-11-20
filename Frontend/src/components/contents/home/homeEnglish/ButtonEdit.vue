@@ -196,9 +196,8 @@ export default {
             .then((res) => {
               this.visible = false
               this.isHiden = false
-              this.$message.success({ content: 'Xong :3', key, duration: 2 })
               if (res.code === 200) {
-                this.$message.success(res.data.message)
+                this.$message.success({ content: 'Sửa từ mới thành công :3', key, duration: 2 })
                 this.$emit('editDone')
               } else {
                 this.$message.error(res.data.message)
