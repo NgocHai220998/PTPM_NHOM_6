@@ -1,7 +1,7 @@
 <template>
   <section class="sidebar-left">
     <Info :socket="socket" class="sidebar-left-info" />
-    <Feature class="sidebar-left-feature" />
+    <Feature :socket="socket" class="sidebar-left-feature" />
     <ChatBox :socket="socket" class="sidebar-left-chatbox" />
   </section>
 </template>

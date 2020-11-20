@@ -18,12 +18,12 @@
             <div v-for="(value, name, index) in user.main" :key="index">
               <span style="font-size: 16px" v-if="name === 'userName'"><b>Tên:</b> {{ value }}</span>
               <span style="font-size: 16px" v-if="name === 'kind'"><b>Hệ:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'martialArt'"><b>Võ lực:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'avoid'"><b>Né tránh:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'propUp'"><b>Chống đỡ:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'critical'"><b>Chí mạng:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'armor'"><b>Giáp:</b> {{ value }}</span>
-              <span style="font-size: 16px" v-if="name === 'hp'"><b>Máu:</b> {{ value }}</span>
+              <span style="font-size: 16px" v-if="name === 'martialArt'"><b>Võ lực:</b> {{ value + (user.profile.technicalPoint.martialArt * 10) }}</span>
+                <span style="font-size: 16px" v-if="name === 'avoid'"><b>Né tránh:</b> {{ value + (user.profile.technicalPoint.avoid * 1) }}</span>
+                <span style="font-size: 16px" v-if="name === 'propUp'"><b>Chống đỡ:</b> {{ value + (user.profile.technicalPoint.propUp * 1) }}</span>
+                <span style="font-size: 16px" v-if="name === 'critical'"><b>Chí mạng:</b> {{ value + (user.profile.technicalPoint.critical * 1) }}</span>
+                <span style="font-size: 16px" v-if="name === 'armor'"><b>Giáp:</b> {{ value + (user.profile.technicalPoint.armor * 10) }}</span>
+                <span style="font-size: 16px" v-if="name === 'hp'"><b>Máu:</b> {{ value + (user.profile.technicalPoint.hp * 20) }}</span>
             </div>
           </div>
           <a-button style="width: 100%" class="background">Bản thân</a-button>

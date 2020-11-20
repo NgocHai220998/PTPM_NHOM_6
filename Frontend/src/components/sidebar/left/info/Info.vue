@@ -111,7 +111,7 @@ export default {
     },
     connectSocket () {
       this.serverUpdateProfile()
-      this.serverUpdateFigure()
+      this.serverLevelUp()
     },
     serverUpdateProfile () {
       this.socket.on('serverUpdateProfile', async (data) => {
@@ -132,9 +132,10 @@ export default {
         }
       })
     },
-    serverUpdateFigure () {
-      this.socket.on('serverUpdateFigure', async (data) => {
+    serverLevelUp () {
+      this.socket.on('serverLevelUp', async (data) => {
         if (data.code === 200) {
+          this.levelUp()
           await this.getUserByEmail({
             email: this.user.email
           })
@@ -149,6 +150,14 @@ export default {
         } else {
           this.$message.error('Lỗi rồi đại ca ơi!')
         }
+      })
+    },
+    levelUp () {
+      this.$notification.success({
+        message: 'Lên cấp rùi 😄😄',
+        description:
+          'Điểm kỹ năng +3, Tiền yên(円) +100, Danh vọng +10',
+        duration: 0
       })
     }
   },
@@ -235,7 +244,7 @@ export default {
               ...this.user.profile.technicalPoint,
               index: this.user.profile.technicalPoint.index + 3
             },
-            expNextLevel: parseInt(this.user.profile.expNextLevel * 1.333)
+            expNextLevel: parseInt(this.user.profile.expNextLevel * 1.2)
           }
         })
       }
