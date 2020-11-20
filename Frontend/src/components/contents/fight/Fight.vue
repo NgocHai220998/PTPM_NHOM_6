@@ -508,6 +508,15 @@ export default {
         console.log(error)
       }
     }, // Lấy dữ liệu của 2 người dùng
+    addTechnicalPoint (user) { // Thêm chỉ số technical cho main
+      user.main.martialArt += (user.profile.technicalPoint.martialArt * 10)
+      user.main.avoid += (user.profile.technicalPoint.avoid * 1)
+      user.main.propUp += (user.profile.technicalPoint.propUp * 1)
+      user.main.critical += (user.profile.technicalPoint.critical * 1)
+      user.main.hp += (user.profile.technicalPoint.hp * 20)
+      user.main.armor += (user.profile.technicalPoint.armor * 10)
+      return user
+    },
     setPosition (position, main, pets) {
       for (let i = 0; i < position.length; ++i) {
         if (position[i].position === main.position && position[i].kind === '') {

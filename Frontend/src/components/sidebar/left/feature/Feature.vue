@@ -10,11 +10,7 @@
         Thương nhân thần bí(Mới)
       </router-link>
     </div>
-    <div class="feature-3">
-      <router-link :to="{ name: '' }" class="link">
-        Có thể nâng kỳ thuật
-      </router-link>
-    </div>
+    <TechnicalPoint :socket="socket" :user="user" class="feature-3" />
     <div class="feature-4">
       <router-link :to="{ name: '' }" class="link">
         Đến phong ấn ma vương
@@ -29,8 +25,23 @@
 </template>
 
 <script>
+
+import TechnicalPoint from './TechnicalPoint'
+
 export default {
-  name: 'FeatureComponent'
+  name: 'FeatureComponent',
+  data () {
+    return {
+      user: null
+    }
+  },
+  components: {
+    TechnicalPoint
+  },
+  props: ['socket'],
+  beforeMount () {
+    this.user = JSON.parse(localStorage.getItem('user'))
+  }
 }
 </script>
 
@@ -43,6 +54,14 @@ export default {
         font-size: 16px;
         font-weight: 600;
         text-decoration: underline;
+      }
+    }
+    &-technical-point {
+      .input-number {
+        span {
+          font-weight: bold;
+          font-size: 16px;
+        }
       }
     }
   }
