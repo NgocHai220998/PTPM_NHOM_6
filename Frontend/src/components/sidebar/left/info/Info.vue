@@ -90,8 +90,6 @@
 
 <script>
 
-import { mapGetters, mapActions } from 'vuex'
-
 export default {
   name: 'InfoComponent',
   data () {
@@ -101,11 +99,7 @@ export default {
     }
   },
   props: ['socket'],
-  computed: {
-    ...mapGetters(['userByEmail'])
-  },
   methods: {
-    ...mapActions(['getUserByEmail']),
     clickFamePoint () {
       this.$message.success('clicked FamePoint')
     },
@@ -116,37 +110,33 @@ export default {
     serverUpdateProfile () {
       this.socket.on('serverUpdateProfile', async (data) => {
         if (data.code === 200) {
-          await this.getUserByEmail({
-            email: this.user.email
-          })
-          setTimeout(() => {
-            localStorage.setItem('user', JSON.stringify({
-              ...this.user,
-              ...this.userByEmail
-            }))
-            this.user = JSON.parse(localStorage.getItem('user'))
-            this.exp = this.user.profile.exp
-          }, 0)
+          this.user = {
+            ...this.user,
+            ...data.user
+          }
+          this.exp = this.user.profile.exp
+          localStorage.setItem('user', JSON.stringify({
+            ...this.user,
+            ...data.user
+          }))
         } else {
           this.$message.error('Lỗi rồi đại ca ơi!')
         }
       })
     },
     serverLevelUp () {
-      this.socket.on('serverLevelUp', async (data) => {
+      this.socket.on('serverLevelUp', (data) => {
         if (data.code === 200) {
           this.levelUp()
-          await this.getUserByEmail({
-            email: this.user.email
-          })
-          setTimeout(() => {
-            localStorage.setItem('user', JSON.stringify({
-              ...this.user,
-              ...this.userByEmail
-            }))
-            this.user = JSON.parse(localStorage.getItem('user'))
-            this.exp = this.user.profile.exp
-          }, 1000)
+          this.user = {
+            ...this.user,
+            ...data.user
+          }
+          this.exp = this.user.profile.exp
+          localStorage.setItem('user', JSON.stringify({
+            ...this.user,
+            ...data.user
+          }))
         } else {
           this.$message.error('Lỗi rồi đại ca ơi!')
         }
@@ -165,9 +155,6 @@ export default {
     this.user = JSON.parse(localStorage.getItem('user'))
     if (this.user) {
       this.connectSocket()
-      this.getUserByEmail({
-        email: this.user.email
-      })
     }
   },
   watch: {

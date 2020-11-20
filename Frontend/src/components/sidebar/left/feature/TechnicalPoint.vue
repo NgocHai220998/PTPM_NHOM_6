@@ -137,7 +137,7 @@ export default {
             avoid: this.valueAvoid,
             propUp: this.valuePropUp,
             critical: this.valueCritical,
-            hp: this.hp,
+            hp: this.valueHP,
             armor: this.valueArmor
           }
         }
@@ -147,19 +147,18 @@ export default {
       this.serverUpdateProfile()
     },
     serverUpdateProfile () {
-      this.socket.on('serverUpdateProfile', async (result) => {
-        if (result.code === 200) {
-          await this.getUserByEmail({
-            email: this.user.email
-          })
-          setTimeout(() => {
-            localStorage.setItem('user', JSON.stringify({
-              ...this.user,
-              ...this.userByEmail
-            }))
-            this.user = JSON.parse(localStorage.getItem('user'))
-            this.setData()
-          }, 0)
+      this.socket.on('serverUpdateProfile', (data) => {
+        if (data.code === 200) {
+          this.user = {
+            ...this.user,
+            ...data.user
+          }
+          this.exp = this.user.profile.exp
+          localStorage.setItem('user', JSON.stringify({
+            ...this.user,
+            ...data.user
+          }))
+          this.setData()
         } else {
           this.$message.error('Ui có biến rồi đại ca ơi 😡😡')
         }

@@ -1,12 +1,14 @@
 <template>
   <section class="function">
     <Rank />
+    <GotoLearn />
   </section>
 </template>
 
 <script>
 
 import Rank from './Rank'
+import GotoLearn from './GotoLearn'
 
 export default {
   name: 'FunctionHeader',
@@ -15,7 +17,8 @@ export default {
     }
   },
   components: {
-    Rank
+    Rank,
+    GotoLearn
   }
 }
 </script>

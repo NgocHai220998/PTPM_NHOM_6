@@ -57,9 +57,12 @@ export default {
       stackStatus: [], // Mảng để nhét các hiệu hứng né tránh, chống đỡ, bạo kích
       user: null,
       dataShow: dataS, // Dữ liệu chứa các trường hiện hiệu ứng trong game
-      visible: true
+      visible: true,
+      dataLeft: null,
+      dataRight: null
     }
   },
+  props: ['socket'],
   methods: {
     setFigure () {
       for (let i = 0; i < this.figureLeft.length; ++i) {
@@ -491,19 +494,19 @@ export default {
       }, 2000)
     }, // chạy hoạt ảnh trận đấu
     async loadData () {
-      let dataLeft = null
-      let dataRight = null
       try {
-        dataLeft = await fetch(`${API.GET_USER_BY_EMAIL}/${this.$router.history.current.params.email}`, {
+        this.dataLeft = await fetch(`${API.GET_USER_BY_EMAIL}/${this.$router.history.current.params.email}`, {
           headers: jsonHeader.headers,
           method: getMethod.method
         }).then(res => res.json())
-        dataRight = await fetch(`${API.GET_USER_BY_EMAIL}/${this.$router.history.current.params.emailReverse}`, {
+        this.dataRight = await fetch(`${API.GET_USER_BY_EMAIL}/${this.$router.history.current.params.emailReverse}`, {
           headers: jsonHeader.headers,
           method: getMethod.method
         }).then(res => res.json())
-        this.mainLeft = this.setPosition(pos.left, dataLeft.data.user.main, dataLeft.data.user.pets)
-        this.mainRight = this.setPosition(pos.right, dataRight.data.user.main, dataRight.data.user.pets)
+        this.dataLeft.data.user = this.addTechnicalPoint(this.dataLeft.data.user)
+        this.dataRight.data.user = this.addTechnicalPoint(this.dataRight.data.user)
+        this.mainLeft = this.setPosition(pos.left, this.dataLeft.data.user.main, this.dataLeft.data.user.pets)
+        this.mainRight = this.setPosition(pos.right, this.dataRight.data.user.main, this.dataRight.data.user.pets)
       } catch (error) {
         console.log(error)
       }
@@ -544,7 +547,7 @@ export default {
       let status = {}
       let dame = parseInt(figure.martialArt * (1.75)) - parseInt(figureReverse.armor * (1.333))
       let random = Math.floor(Math.random() * 100)
-      if (random < figure.critical) {
+      if (random < (figure.critical)) {
         dame = parseInt(dame * (1.8))
         if (figure.isMe) {
           status.left = {
@@ -620,8 +623,7 @@ export default {
         title: 'Chiến thắng',
         content: (
           <div>
-            <p>+ 5 Tiền</p>
-            <p>+ 340exp</p>
+            <p>Mạnh thế ai chịu nổi hả Đại ca!</p>
           </div>
         ),
         onOk: () => {
@@ -634,15 +636,32 @@ export default {
         title: 'Thất bại',
         content: (
           <div>
-            <p>+ 1 Tiền</p>
-            <p>+ 80exp</p>
+            <p>Cố găng chăm chỉ học tập để mạnh hơn nhé! 😂😂</p>
           </div>
         ),
         onOk: () => {
           this.$router.push({ name: 'HomeScreen' })
         }
       })
-    }
+    },
+    updateRank () {
+      if (this.isWin && (this.dataLeft.data.user.profile.rank > this.dataRight.data.user.profile.rank)) {
+        this.socket.emit('clientFightWin', {
+          type: this.$router.history.current.params.type,
+          token: this.user.token,
+          email: {
+            rank: this.dataLeft.data.user.profile.rank,
+            email: this.dataLeft.data.user.email,
+            userName: this.dataLeft.data.user.main.userName
+          },
+          emailReverse: {
+            rank: this.dataRight.data.user.profile.rank,
+            email: this.dataRight.data.user.email,
+            userName: this.dataRight.data.user.main.userName
+          }
+        })
+      }
+    } // Cập nhật kết quả trận đấu =))
   },
   async mounted () {
     this.user = JSON.parse(localStorage.getItem('user'))
@@ -654,6 +673,9 @@ export default {
     this.setFigure()
     this.setFigureRight()
     this.runFigure()
+    setTimeout(() => {
+      this.updateRank()
+    }, 2000)
   },
   beforeDestroy () {
     window.location.reload()

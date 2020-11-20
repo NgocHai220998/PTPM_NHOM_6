@@ -1,6 +1,6 @@
 <template>
   <section class="left">
-    <ButtonAdd @addDone="$emit('addDone')" :example="example" class="add" />
+    <ButtonAdd :socket="socket" @addDone="$emit('addDone')" :example="example" class="add" />
     <ButtonEdit @editDone="$emit('editDone')" :example="example" class="edit" />
     <div class="delete">
       <a-popconfirm
@@ -28,7 +28,7 @@ export default {
     return {
     }
   },
-  props: ['example'],
+  props: ['example', 'socket'],
   components: {
     ButtonAdd,
     ButtonEdit

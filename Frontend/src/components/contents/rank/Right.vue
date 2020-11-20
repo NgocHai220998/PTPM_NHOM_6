@@ -98,12 +98,14 @@ export default {
       listRank: null,
       dataInfo: {
         srcImage: '/static/images/shoot.png'
-      }
+      },
+      infoFight: ''
     }
   },
   computed: {
     ...mapGetters(['userByEmail'])
   },
+  props: ['socket'],
   methods: {
     ...mapActions(['getUserByEmail']),
     fight (email) {
@@ -113,6 +115,7 @@ export default {
         this.$router.push({
           name: 'FightScreen',
           params: {
+            type: 'rank',
             email: this.user.email,
             emailReverse: email
           }
@@ -159,6 +162,15 @@ export default {
         this.dataInfo = this.userByEmail.main
         this.isLoadingInfo = false
       }, 1000)
+    },
+    connectSocket () {
+      this.socket.on('serverUpdateRank', (data) => {
+        if (data.code === 200) {
+          this.listRank = data.rank.listRank
+          this.setData()
+          this.infoFight = data.info
+        }
+      })
     }
   },
   beforeMount () {
@@ -168,6 +180,7 @@ export default {
     })
     this.windowHeight = window.innerHeight
     this.getRanks()
+    this.connectSocket()
   }
 }
 </script>

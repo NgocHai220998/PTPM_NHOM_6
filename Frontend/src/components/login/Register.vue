@@ -97,7 +97,8 @@
 import userService from '@/utils/userServices'
 import { jsonHeader } from '@/utils/fetchTool'
 import { hash256 } from '@/utils/common'
-import { API } from '@/constants/api'
+import { API, SOCKET_EVENT } from '@/constants/api'
+import io from 'socket.io-client'
 
 export default {
   name: 'RegisterComponent',
@@ -106,7 +107,8 @@ export default {
       loading: false,
       homeUrl: 'https://game-language.herokuapp.com',
       termChecked: true,
-      form: this.$form.createForm(this)
+      form: this.$form.createForm(this),
+      socket: null
     }
   },
   methods: {
@@ -156,6 +158,7 @@ export default {
                   .then((res) => {
                     if (res.code === 200) {
                       const message = res.data.message ? res.data.message : 'Please! check your mail to confirm'
+                      this.createMissions(res.data.data.email)
                       this.$message.success(message)
                       this.$router.push({ name: 'Login' })
                     } else if (res.code === 451) {
@@ -180,6 +183,16 @@ export default {
               }
             })
         }
+      })
+    },
+    createMissions (email) {
+      this.socket = io.connect(SOCKET_EVENT.urlSocket, {
+        query: {
+          name: 'system-game-language'
+        }
+      })
+      this.socket.emit('clientCreateMissions', {
+        email
       })
     }
   },

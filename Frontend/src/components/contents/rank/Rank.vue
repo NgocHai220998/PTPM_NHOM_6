@@ -1,7 +1,7 @@
 <template>
   <section :class="isHiden ? 'disabledBox' : ''" class="rank-page">
-    <Left class="left"/>
-    <Right class="right" />
+    <Left :socket="socket" class="left"/>
+    <Right :socket="socket" class="right" />
   </section>
 </template>
 <script>
@@ -18,6 +18,7 @@ export default {
       isHiden: false
     }
   },
+  props: ['socket'],
   components: {
     Left,
     Right

@@ -8,6 +8,8 @@ import HomeScreen from '@/screens/HomeScreen'
 import FightScreen from '@/screens/FightScreen'
 import PositionScreen from '@/screens/PositionScreen'
 import RankScreen from '@/screens/RankScreen'
+import RecruitScreen from '@/screens/RecruitScreen'
+import GotoLearnScreen from '@/screens/GotoLearnScreen'
 
 Vue.use(Router)
 
@@ -36,7 +38,7 @@ const router = new Router({
       component: ForgotPassword
     },
     {
-      path: '/fight/:email/:emailReverse',
+      path: '/fight/:type/:email/:emailReverse',
       name: 'FightScreen',
       component: FightScreen,
       meta: { auth: true }
@@ -51,6 +53,18 @@ const router = new Router({
       path: '/rank',
       name: 'RankScreen',
       component: RankScreen,
+      meta: { auth: true }
+    },
+    {
+      path: '/recruit',
+      name: 'RecruitScreen',
+      component: RecruitScreen,
+      meta: { auth: true }
+    },
+    {
+      path: '/goto-learn',
+      name: 'GotoLearnScreen',
+      component: GotoLearnScreen,
       meta: { auth: true }
     }
   ]

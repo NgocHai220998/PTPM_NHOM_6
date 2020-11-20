@@ -74,7 +74,7 @@
     </div>
     <div class="right">
       <div class="group-button">
-        <ButtonAdd :word="word" @addDone="addDone"/>
+        <ButtonAdd :socket="socket" :word="word" @addDone="addDone"/>
         <ButtonEdit :word="word" @editDone="editDone"/>
         <div class="delete">
           <a-popconfirm

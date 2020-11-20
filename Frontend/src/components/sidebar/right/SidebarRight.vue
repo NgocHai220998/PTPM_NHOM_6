@@ -1,7 +1,7 @@
 <template>
   <section class="sidebar-right">
     <Top class="sidebar-right-top" />
-    <Mission class="sidebar-right-misson sidebar-right-misson-japanese" />
+    <Mission :socket="socket" class="sidebar-right-misson sidebar-right-misson-japanese" />
     <Voca class="sidebar-right-bot sidebar-right-voca" />
   </section>
 </template>
@@ -18,6 +18,7 @@ export default {
     return {
     }
   },
+  props: ['socket'],
   components: {
     Mission,
     Top,

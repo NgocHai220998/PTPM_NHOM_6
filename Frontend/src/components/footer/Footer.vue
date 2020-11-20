@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <Example />
+    <Example :socket="socket" />
   </footer>
 </template>
 
@@ -14,6 +14,7 @@ export default {
     return {
     }
   },
+  props: ['socket'],
   components: {
     Example
   }
