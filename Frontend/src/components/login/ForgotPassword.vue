@@ -108,6 +108,7 @@ export default {
       }
     },
     onSearch () {
+      this.$message.warning('Chức năng đang bảo trì, vui lòng quay lại sau!')
       this.loadingGetCode = true
       fetch(API.GET_CODE, {
         headers: jsonHeader.headers,

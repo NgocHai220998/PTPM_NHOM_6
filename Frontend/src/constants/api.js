@@ -41,7 +41,7 @@ const API = {
 
 const SOCKET_EVENT = {
   socket: 'socket',
-  urlSocket: 'http://localhost:4000'
+  urlSocket: config.SOCKET_SERVER
 }
 
 export {

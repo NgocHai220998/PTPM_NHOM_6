@@ -6,7 +6,7 @@
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img height="100" width="100" src="/static/images/attack.png" alt="null">
+        <img style="margin-left: 25px" height="115" width="120" src="/static/images/gotoLearn.png" alt="null">
       </div>
     </router-link>
     <div class="text">

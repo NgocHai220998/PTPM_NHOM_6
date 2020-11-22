@@ -661,7 +661,19 @@ export default {
           }
         })
       }
-    } // Cập nhật kết quả trận đấu =))
+    }, // Cập nhật kết quả trận đấu =))
+    robGotoLearnResult () {
+      let robGotoLearnData = JSON.parse(localStorage.getItem('robGotoLearnData'))
+      if (robGotoLearnData) {
+        this.socket.emit('clientSendRobGotoLearnResult', {
+          token: this.user.token,
+          isWin: this.isWin,
+          robGotoLearnData: robGotoLearnData,
+          emailReverse: this.$router.history.current.params.emailReverse,
+          type: 'rob'
+        })
+      }
+    }
   },
   async mounted () {
     this.user = JSON.parse(localStorage.getItem('user'))
@@ -674,7 +686,11 @@ export default {
     this.setFigureRight()
     this.runFigure()
     setTimeout(() => {
-      this.updateRank()
+      if (this.$router.history.current.params.type === 'rank') {
+        this.updateRank()
+      } else if (this.$router.history.current.params.type === 'rob') {
+        this.robGotoLearnResult()
+      }
     }, 2000)
   },
   beforeDestroy () {
