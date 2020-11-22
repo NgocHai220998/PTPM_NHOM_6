@@ -6,7 +6,7 @@
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img height="100" width="100" src="/static/images/shoot.png" alt="null">
+        <img style="margin-left: 9px" height="100" width="80" src="/static/images/rank.png" alt="null">
       </div>
     </router-link>
     <div class="text">

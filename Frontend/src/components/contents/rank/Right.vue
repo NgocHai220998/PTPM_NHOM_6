@@ -3,7 +3,7 @@
     <div class="top">
       <div class="info-rank">
         <span>
-          <b>๖ۣۜ₦gọɕHải</b> uy lực đánh hạ ๖ۣۜ₦gọɕNguyễn lên hạng 1 võ đài
+          <b>Bảng xếp hạng võ đài</b>
         </span>
       </div>
     </div>
@@ -111,6 +111,8 @@ export default {
     fight (email) {
       if (email === this.user.email) {
         this.$message.success('Tự hủy à =))')
+      } else if (this.user.profile.otherInformation.maxFight < 1) {
+        this.$message.warning('Đã hết lượt khiêu chiến rồi')
       } else {
         this.$router.push({
           name: 'FightScreen',

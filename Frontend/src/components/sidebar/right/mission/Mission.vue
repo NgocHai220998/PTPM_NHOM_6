@@ -124,6 +124,13 @@ export default {
           description: `Kinh nghiệm +${data.exp}, Tiền Yên(円) +${data.money}`
         })
       })
+      this.socket.on('userGotoUniversity', (data) => {
+        this.$notification.warning({
+          message: 'Có mồi ngon! 😍😍',
+          description: `${data.userName} bắt đầu đi học Đại học, mau chóng đến cướp thôi! 😍😍`,
+          duration: 0
+        })
+      })
     },
     getMission () {
       this.socket.emit('clientGetMission', {
