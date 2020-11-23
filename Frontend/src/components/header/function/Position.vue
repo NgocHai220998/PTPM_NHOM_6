@@ -10,7 +10,7 @@
       </div>
     </router-link>
     <div class="text">
-      <span>Trận hình</span>
+      <span>Trận Hình</span>
     </div>
   </section>
 </template>
@@ -41,7 +41,7 @@ export default {
     .text {
       position: absolute;
       span {
-        font-size: 22px;
+        font-size: 21px;
         font-weight: bold;
         color: white;
       }

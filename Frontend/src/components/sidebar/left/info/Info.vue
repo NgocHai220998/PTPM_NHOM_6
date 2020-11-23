@@ -2,7 +2,9 @@
   <section class="info">
     <div class="info-container">
       <div class="avatar">
-        <img width="100" height="100" class="index background" :src="user ? user.main.srcImage : ''" />
+        <router-link :to="{ name: 'HomeScreen' }">
+          <img width="100" height="100" class="index background" :src="user ? user.main.srcImage : ''" />
+        </router-link>
         <div class="avatar-level background">
           <div>
             <a-tooltip placement="topLeft">

@@ -138,7 +138,7 @@ export default {
           if (res.code === 200) {
             this.listRank = res.data.ranks.listRank
             this.setData()
-            this.$message.success({ content: 'Xong :3', key, duration: 2 })
+            this.$message.success({ content: 'Done', key, duration: 2 })
             this.isHiden = false
           } else {
             this.$message.error({ content: 'Toang :3', key, duration: 2 })

@@ -390,7 +390,7 @@ export default {
         background-color: rgba(0, 0, 0, 0.8);
         border-radius: 10px;
         border: 1px solid green;
-        padding: 15px;
+        padding: 15px 40px;
         .text {
           span {
             font-size: 34px;
