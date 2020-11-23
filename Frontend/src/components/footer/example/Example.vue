@@ -14,7 +14,7 @@
           </div>
       </div>
       <div v-else class="commingsoon">
-          <span>Bạn đã sẵn sàng chưa?</span>
+          <span>Nơi lưu những câu ngắn</span>
       </div>
     </section>
     <section class="right">

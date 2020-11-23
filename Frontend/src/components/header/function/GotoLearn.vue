@@ -41,7 +41,7 @@ export default {
     .text {
       position: absolute;
       span {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: bold;
         color: white;
       }

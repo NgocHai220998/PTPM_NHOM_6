@@ -17,11 +17,11 @@
     <div class="content">
       <div class="text-voca">
         <span v-if="badWord.badWord !== ''">{{ badWord.badWord }}</span>
-        <span v-else>Chúng ta bắt đầu chứ? </span>
+        <span v-else>Nơi lưu những từ? </span>
       </div>
       <div class="text-spell">
         <span v-if="badWord.badWord !== ''">{{ badWord.explain }}</span>
-        <span v-else>Are you ready?</span>
+        <span v-else>Đã thuộc</span>
       </div>
     </div>
     <div class="bottom">
@@ -62,6 +62,7 @@ export default {
     ButtonAdd,
     ButtonEdit
   },
+  props: ['socket'],
   computed: {
     ...mapGetters(['badWords'])
   },
@@ -107,7 +108,7 @@ export default {
         this.badWord = this.badWords[this.index]
       } else {
         this.badWord = {
-          badWord: ''
+          badWord: 'Empty'
         }
       }
     },
@@ -128,6 +129,14 @@ export default {
         email: this.user.email
       })
       this.run()
+    },
+    connectSocket () {
+      this.socket.on('serverUpdateBadWord', () => {
+        this.getBadWords({
+          email: this.user.email
+        })
+        this.run()
+      })
     }
   },
   beforeMount () {
@@ -136,6 +145,7 @@ export default {
       this.getBadWords({
         email: this.user.email
       })
+      this.connectSocket()
     }
   },
   watch: {

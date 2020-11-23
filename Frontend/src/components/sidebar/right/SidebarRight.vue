@@ -2,7 +2,7 @@
   <section class="sidebar-right">
     <Top class="sidebar-right-top" />
     <Mission :socket="socket" class="sidebar-right-misson sidebar-right-misson-japanese" />
-    <Voca class="sidebar-right-bot sidebar-right-voca" />
+    <Voca :socket="socket" class="sidebar-right-bot sidebar-right-voca" />
   </section>
 </template>
 
