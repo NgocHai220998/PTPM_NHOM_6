@@ -1,16 +1,16 @@
 <template>
-  <section class="recruit background">
-    <router-link :to="{ name: 'RecruitScreen' }">
-      <div class="recruit-index">
+  <section class="courses background">
+    <router-link :to="{ name: 'CoursesScreen' }">
+      <div class="courses-index">
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img style="margin-left: 0px" height="115" width="120" src="/static/images/attack.png" alt="null">
+        <img style="margin-left: -15px" height="110" width="110" src="/static/images/ninja.png" alt="null">
       </div>
     </router-link>
     <div class="text">
-      <span>Đồng Đội</span>
+      <span>Thư Viện</span>
     </div>
   </section>
 </template>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-  name: 'recruitHeader',
+  name: 'PositionHeader',
   data () {
     return {
     }
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .recruit {
+  .courses {
     position: relative;
     width: 100px;
     height: 100px;

@@ -46,6 +46,10 @@ export default {
   beforeMount () {
     this.currentRouter = this.$router.history.current.name
     this.user = JSON.parse(localStorage.getItem('user'))
+    this.$message.config({
+      maxCount: 1,
+      duration: 0.7
+    })
     if (this.user) {
       this.socket = io.connect(SOCKET_EVENT.urlSocket, {
         query: {

@@ -261,11 +261,11 @@ export default {
           case 5:
           case 6:
           case 7:
-          case 8:
             this.isChoicePrimary = false
             this.isChoiceHigh = true
             this.isChoiceUniversity = false
             break
+          case 8:
           case 9:
             this.isChoicePrimary = false
             this.isChoiceHigh = false
