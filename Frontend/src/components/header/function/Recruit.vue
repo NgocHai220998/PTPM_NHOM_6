@@ -1,16 +1,16 @@
 <template>
-  <section class="Rank background">
-    <router-link :to="{ name: 'RankScreen' }">
-      <div class="rank-index">
+  <section class="recruit background">
+    <router-link :to="{ name: 'RecruitScreen' }">
+      <div class="recruit-index">
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img style="margin-left: 9px" height="100" width="80" src="/static/images/rank.png" alt="null">
+        <img style="margin-left: 0px" height="115" width="120" src="/static/images/attack.png" alt="null">
       </div>
     </router-link>
     <div class="text">
-      <span>Võ Đài</span>
+      <span>Đồng Đội</span>
     </div>
   </section>
 </template>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-  name: 'RankHeader',
+  name: 'recruitHeader',
   data () {
     return {
     }
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .Rank {
+  .recruit {
     position: relative;
     width: 100px;
     height: 100px;

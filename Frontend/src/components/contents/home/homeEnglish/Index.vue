@@ -86,6 +86,16 @@
             <a-button class="btn" type="danger"><a-icon type="delete" />Xóa</a-button>
           </a-popconfirm>
         </div>
+        <div class="done">
+          <a-popconfirm
+            title="Bạn đã thuộc từ này chưa？"
+            okText="Đã thuộc"
+            cancelText="Chưa"
+            @confirm="confirmDone"
+          >
+            <a-button class="btn" type="primary">Hoàn thành</a-button>
+          </a-popconfirm>
+        </div>
       </div>
     </div>
   </section>
@@ -295,6 +305,23 @@ export default {
         description: message,
         duration: 2
       })
+    },
+    confirmDone () {
+      this.socket.emit('clientDoneWord', {
+        token: this.user.token,
+        badWord: this.word.vocabulary,
+        explain: this.word.explain,
+        _id: this.word._id,
+        email: this.word.email
+      })
+    },
+    connectSocket () {
+      this.socket.on('serverUpdateWord', (data) => {
+        this.getWords({
+          email: this.user.email
+        })
+        this.run()
+      })
     }
   },
   beforeMount () {
@@ -303,6 +330,7 @@ export default {
       this.getWords({
         email: this.user.email
       })
+      this.connectSocket()
       let dataHome = JSON.parse(localStorage.getItem('dataHome'))
       if (dataHome) {
         this.isAuto = dataHome.isAuto
@@ -362,7 +390,7 @@ export default {
         background-color: rgba(0, 0, 0, 0.8);
         border-radius: 10px;
         border: 1px solid green;
-        padding: 15px;
+        padding: 15px 40px;
         .text {
           span {
             font-size: 34px;
@@ -441,6 +469,9 @@ export default {
           .btn {
             width: 100%;
           }
+        }
+        .done {
+          margin-top: 30px;
         }
       }
     }

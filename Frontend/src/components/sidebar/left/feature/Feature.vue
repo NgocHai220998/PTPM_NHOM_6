@@ -1,9 +1,9 @@
 <template>
   <section class="feature">
-    <div class="feature-1">
-      <router-link :to="{ name: '' }" class="link">
-        Đi độ kiếp
-      </router-link>
+    <div v-if="messages" class="feature-1 message">
+      <a-button @click="showModal" class="btn" type="primary">Thông báo</a-button>
+      <a-badge :count="messages.count">
+      </a-badge>
     </div>
     <div class="feature-2">
       <router-link :to="{ name: 'RecruitScreen' }" class="link">
@@ -11,6 +11,18 @@
       </router-link>
     </div>
     <TechnicalPoint :socket="socket" :user="user" class="feature-3" />
+    <a-modal
+      title="Thông báo"
+      :visible="visible"
+      @ok="handleCancel"
+      @cancel="handleCancel"
+      v-if="messages"
+    >
+      <div style="background-color: rgba(0, 0, 0, 0.15); margin-top: 5px; padding: 5px;" v-for="(message, i) in messages.messages" :key="i" class="item-message">
+        <h4 style="margin: 0; color: green;">{{ message.title }}</h4>
+        <b>{{ message.time }}</b>-> <span>{{ message.content }}</span>
+      </div>
+    </a-modal>
   </section>
 </template>
 
@@ -22,15 +34,37 @@ export default {
   name: 'FeatureComponent',
   data () {
     return {
-      user: null
+      user: null,
+      visible: false,
+      messages: null
     }
   },
   components: {
     TechnicalPoint
   },
+  methods: {
+    showModal () {
+      this.visible = true
+    },
+    handleCancel () {
+      this.visible = false
+      this.socket.emit('clientClickMessage', {
+        email: this.user.email
+      })
+    },
+    connectSocket () {
+      this.socket.on('serverRequestUpdateMessage', (data) => {
+        this.messages = data.messages
+      })
+    }
+  },
   props: ['socket'],
   beforeMount () {
     this.user = JSON.parse(localStorage.getItem('user'))
+    this.connectSocket()
+    this.socket.emit('clientRequestUpdateMessage', {
+      email: this.user.email
+    })
   }
 }
 </script>

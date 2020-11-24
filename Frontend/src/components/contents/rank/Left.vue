@@ -10,6 +10,9 @@
     </div>
     <div class="avatar">
       <img width="80%" :src="this.user.main.srcImage" alt="gameLanguage">
+      <div style="text-align: center">
+        <div style="color: white;">Khiêu chiến: {{ `${10 - user.profile.otherInformation.maxFight}/10` }}</div>
+      </div>
     </div>
     <div class="action">
       <div class="info">

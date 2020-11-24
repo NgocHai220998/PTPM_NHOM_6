@@ -147,40 +147,43 @@ export default {
           }).then((response) => response.json())
             .then((res) => {
               hideLoading()
-              if (res.code === 200) {
-                fetch(API.SEND_EMAIL_REGISTER, {
-                  method: 'post',
-                  headers: jsonHeader.headers,
-                  body: JSON.stringify({
-                    email: values.email
-                  })
-                }).then((response) => response.json())
-                  .then((res) => {
-                    if (res.code === 200) {
-                      const message = res.data.message ? res.data.message : 'Please! check your mail to confirm'
-                      this.createMissions(res.data.data.email)
-                      this.$message.success(message)
-                      this.$router.push({ name: 'Login' })
-                    } else if (res.code === 451) {
-                      const message = res.data.message ? res.data.message : 'Send confirm message to register fail!'
-                      this.$message.error(message)
-                    } else {
-                      const message = res.data.message ? res.data.message : 'Something is not right!'
-                      this.$message.error(message)
-                    }
-                    this.loading = false
-                  }).catch((err) => {
-                    console.log(err)
-                  })
-              } else if (res.code === 401) {
-                const message = res.data.message ? res.data.message : 'Email was registered'
-                this.$message.error(message)
-                this.loading = false
-              } else {
-                const message = res.data.message ? res.data.message : 'Something is not right'
-                this.$message.error(message)
-                this.loading = false
-              }
+              this.createMissions(res.data.user.email)
+              this.$message.success('Đăng ký thành công!')
+              this.$router.push({ name: 'Login' })
+              // if (res.code === 200) {
+              //   fetch(API.SEND_EMAIL_REGISTER, {
+              //     method: 'post',
+              //     headers: jsonHeader.headers,
+              //     body: JSON.stringify({
+              //       email: values.email
+              //     })
+              //   }).then((response) => response.json())
+              //     .then((res) => {
+              //       if (res.code === 200) {
+              //         const message = res.data.message ? res.data.message : 'Please! check your mail to confirm'
+              //         this.createMissions(res.data.data.email)
+              //         this.$message.success(message)
+              //         this.$router.push({ name: 'Login' })
+              //       } else if (res.code === 451) {
+              //         const message = res.data.message ? res.data.message : 'Send confirm message to register fail!'
+              //         this.$message.error(message)
+              //       } else {
+              //         const message = res.data.message ? res.data.message : 'Something is not right!'
+              //         this.$message.error(message)
+              //       }
+              //       this.loading = false
+              //     }).catch((err) => {
+              //       console.log(err)
+              //     })
+              // } else if (res.code === 401) {
+              //   const message = res.data.message ? res.data.message : 'Email was registered'
+              //   this.$message.error(message)
+              //   this.loading = false
+              // } else {
+              //   const message = res.data.message ? res.data.message : 'Something is not right'
+              //   this.$message.error(message)
+              //   this.loading = false
+              // }
             })
         }
       })

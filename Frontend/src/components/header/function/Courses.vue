@@ -1,16 +1,16 @@
 <template>
-  <section class="Rank background">
-    <router-link :to="{ name: 'RankScreen' }">
-      <div class="rank-index">
+  <section class="courses background">
+    <router-link :to="{ name: 'CoursesScreen' }">
+      <div class="courses-index">
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
         <span class="effect"></span>
-        <img style="margin-left: 9px" height="100" width="80" src="/static/images/rank.png" alt="null">
+        <img style="margin-left: -15px" height="110" width="110" src="/static/images/ninja.png" alt="null">
       </div>
     </router-link>
     <div class="text">
-      <span>Võ Đài</span>
+      <span>Thư Viện</span>
     </div>
   </section>
 </template>
@@ -18,7 +18,7 @@
 <script>
 
 export default {
-  name: 'RankHeader',
+  name: 'PositionHeader',
   data () {
     return {
     }
@@ -27,7 +27,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .Rank {
+  .courses {
     position: relative;
     width: 100px;
     height: 100px;
